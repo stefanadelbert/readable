@@ -58,7 +58,6 @@ app.get('/', (req, res) => {
       USAGE:
         Used for voting on a post
       PARAMS:
-        option - String: Either "upVote" or "downVote"
 
     PUT /posts/:id
       USAGE:
@@ -80,6 +79,7 @@ app.get('/', (req, res) => {
       USAGE:
         Add a comment to a post
 
+        option - String: Either "upVote" or "downVote"
       PARAMS:
         id: Any unique ID. As with posts, UUID is probably the best here.
         timestamp: timestamp. Get this however you want.
