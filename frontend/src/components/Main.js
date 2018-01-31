@@ -15,6 +15,7 @@ const Main = (props) => {
         </div>
     );
 }
+
 Main.propTypes = {
     categories: PropTypes.array.isRequired,
     posts: PropTypes.array.isRequired,
