@@ -2,19 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {fetchComments} from '../utils/api';
 import Comments from './Comments';
+import PostHeader from './PostHeader';
 
-const Post = ({title, body}) => {
+const PostBody = ({body}) => {
     return (
-        <div>
-            <h3>{title}</h3>
-            <p>{body}</p>
-        </div>
+        <p>{body}</p>
     );
 }
-Post.propTypes = {
-    title: PropTypes.string.isRequired,
+PostBody.propTypes = {
     body: PropTypes.string.isRequired,
 }
 
@@ -26,27 +22,16 @@ const InvalidPost = (props) => {
     )
 }	
 
-class PostWithComments extends React.Component {
-    state = {
-        comments: [],
-    }
-    componentDidMount() {
-        fetchComments(this.props.id)
-            .then(comments => this.setState({comments}))
-            .catch(error => console.log(error))
-    }
+class PostFull extends React.Component {
     render() {
         let filtered_posts = this.props.posts.filter(post => post.id === this.props.id);
         if (filtered_posts.length === 1) {
             let post = filtered_posts[0]
             return (
                 <div>
-                    <Post
-                        title={post.title}
-                        body={post.body}
-                        comments={this.state.comments}
-                    />
-                    <Comments comments={this.state.comments} />
+                    <PostHeader {...post} />
+                    <PostBody {...post} />
+                    <Comments comments={this.props.comments[post.id]} />
                 </div>
             )
         }
@@ -54,10 +39,11 @@ class PostWithComments extends React.Component {
     }
 }
 
-function mapStateToProps({posts}) {
+function mapStateToProps({posts, comments}) {
 	return {
-		posts
+        posts,
+        comments
 	};
 }
 
-export default connect(mapStateToProps, null)(PostWithComments);
+export default connect(mapStateToProps, null)(PostFull);

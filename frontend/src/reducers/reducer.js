@@ -1,11 +1,8 @@
 import {combineReducers} from 'redux';
 
-import {ADD_CATEGORIES, ADD_POSTS} from '../actions/categories';
+import {ADD_CATEGORIES, ADD_POSTS, ADD_COMMENTS} from '../actions/actions';
 
-const initialStateCategories = []
-const initialStatePosts = []
-
-function categories(state = initialStateCategories, action) {
+function categories(state = [], action) {
 	switch(action.type) {
 		case ADD_CATEGORIES:
 			return [...state, ...action.categories];
@@ -14,7 +11,7 @@ function categories(state = initialStateCategories, action) {
 	}
 }
 
-function posts(state = initialStatePosts, action) {
+function posts(state = [], action) {
 	switch(action.type) {
 		case ADD_POSTS:
 			return [...state, ...action.posts];
@@ -23,8 +20,21 @@ function posts(state = initialStatePosts, action) {
 	}
 }
 
+function comments(state = {}, action) {
+	switch(action.type) {
+		case ADD_COMMENTS:
+            return {
+                ...state,
+                [action.postId]: action.comments
+            };
+		default:
+			return state;
+	}
+}
+
 export default combineReducers({
 	categories,
-	posts
+    posts,
+    comments
 });
 

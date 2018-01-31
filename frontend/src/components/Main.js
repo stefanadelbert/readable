@@ -3,19 +3,17 @@ import {connect} from 'react-redux';
 
 import Categories from './Categories';
 import AddLink from './AddLink';
-import Posts from './Posts';
+import PostSummaries from './PostSummaries';
 
-class Main extends React.Component { 
-    render() {
-        return (
-            <div>
-                <Categories categories={this.props.categories} />
-                <AddLink />
-                <Posts posts={this.props.posts} />
-            </div>
-        );
-    }
-}	
+const Main = (props) => { 
+    return (
+        <div>
+            <Categories categories={props.categories} />
+            <AddLink />
+            <PostSummaries posts={props.posts} />
+        </div>
+    );
+}
 
 function mapStateToProps({categories, posts}) {
 	return {
