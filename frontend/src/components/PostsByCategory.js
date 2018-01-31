@@ -1,14 +1,28 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-const PostsByCategory = ({category}) => {
+import PostSummaries from './PostSummaries';
+
+const PostsByCategory = ({posts, category}) => {
+    let filtered_posts = posts.filter(
+        post => post.category === category
+    );
     return (
-    <div>
-        Posts for {category}:
-    </div>
+        <div>
+            Posts for <strong>{category}</strong>
+            <PostSummaries posts={filtered_posts} />
+        </div>
     )
 }
 PostsByCategory.propTypes = {
-    category: PropTypes.string.isRequired
+    posts: PropTypes.array.isRequired,
+    category: PropTypes.string.isRequired,
 }
-export default PostsByCategory;
+function mapStateToProps({posts}) {
+	return {
+        posts
+	};
+}
+
+export default connect(mapStateToProps, null)(PostsByCategory);
