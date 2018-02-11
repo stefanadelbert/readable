@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
 
 class EditablePost extends React.Component {
     state = {
@@ -14,12 +13,14 @@ class EditablePost extends React.Component {
     static propTypes = {
         title: PropTypes.string,
         body: PropTypes.string,
+        onCancel: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
     }
     constructor(props) {
         super(props);
 
         this.state.title = props.title;
-        this.state.body = props.title;
+        this.state.body = props.body;
 
         this.handleTitleChange = this.handleTitleChange.bind(this)
         this.handleBodyChange = this.handleBodyChange.bind(this)
@@ -32,34 +33,46 @@ class EditablePost extends React.Component {
         this.setState({body: event.target.value});
     }
     handleSubmit(event) {
-        event.preventDefault();
+        this.props.onSubmit(this.state.title, this.state.body);
     }
     render() {
         return (
-        <form onSubmit={this.handleSubmit}>
             <div>
-                <label>
-                    Title<input type="text" value={this.state.title} onChange={this.handleTitleChange} name="name" />
-                </label>
+                    <div><input type="text" placeholder={"Title"} value={this.state.title} onChange={this.handleTitleChange} name="name" /></div>
+                    <div><input type="text" placeholder={"Body"} value={this.state.body} onChange={this.handleBodyChange} name="body" /></div>
+                    <div>
+                        <div><a onClick={this.handleSubmit}>Submit</a></div>
+                        <div><a onClick={this.props.onCancel}>Cancel</a></div>
+                    </div>
             </div>
-            <div>
-                <label>
-                    Body<input type="text" value={this.state.body} onChange={this.handleBodyChange} name="body" />
-                </label>
-            </div>
-            <input type="submit" value="Submit" />
-        </form>
         );
     }
+}
+
+const EditPost = (props) => {
+    return (
+        <div>
+            <h3>Edit Post</h3>
+            <EditablePost
+                title={props.post.title}
+                body={props.post.body}
+                onCancel={() => console.log("onCancel clicked")}
+                onSubmit={(title, body) => console.log(`onSubmit clicked: ${title} ${body}`)}
+            />
+        </div>
+    );
 }
 
 const AddPost = (props) => {
     return (
         <div>
             <h3>New Post</h3>
-            <EditablePost />
-            <Link to="/">Cancel</Link>
+            <EditablePost
+                onCancel={() => console.log("onCancel clicked")}
+                onSubmit={(title, body) => console.log(`onSubmit clicked: ${title} ${body}`)}
+            />
         </div>
     );
 }
-export default AddPost;
+
+export {EditPost, AddPost};
