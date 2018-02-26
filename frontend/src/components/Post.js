@@ -2,18 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Remarkable from 'remarkable';
+import styled from 'styled-components';
 
+import Author from './Author';
 import Comments from './Comments';
-import PostHeader from './PostHeader';
+import Timestamp from './Timestamp';
+import VoteScore from './VoteScore';
+import CommentCount from './CommentCount';
 
-const PostBody = ({body}) => {
+const Body = ({body}) => {
     let remarkable = new Remarkable();
     const rendered_body = remarkable.render(body);
     return (
         <div dangerouslySetInnerHTML={{__html: rendered_body}}/>
     );
 }
-PostBody.propTypes = {
+Body.propTypes = {
     body: PropTypes.string.isRequired,
 }
 
@@ -23,9 +27,9 @@ const InvalidPost = (props) => {
             <h3>Invalid Post</h3>
         </div>
     )
-}	
+}
 
-class PostEditBody extends React.Component {
+class BodyEdit extends React.Component {
     static propTypes = {
         body: PropTypes.string.isRequired,
     }
@@ -53,7 +57,43 @@ class PostEditBody extends React.Component {
     }
 }
 
-class PostFull extends React.Component {
+const PostHeaderContainer = styled.div`
+    padding: 1rem;
+    margin: 0.20rem;
+    border-left: 0.3rem grey solid;
+    &:hover {
+        border-left-color: darkred;
+    }
+`;
+const PostHeaderDetailsWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+`;
+const Title = styled.div`flex: 1;`;
+const PostHeader = (props) => {
+    return (
+        <PostHeaderContainer>
+            <Title><strong>{props.title}</strong></Title>
+            <PostHeaderDetailsWrapper>
+                <Author author={props.author}/>
+                <Timestamp timestamp={props.timestamp}/>
+                <VoteScore voteScore={props.voteScore}/>
+                <CommentCount commentCount={props.commentCount}/>
+        </PostHeaderDetailsWrapper>
+        </PostHeaderContainer>
+    );
+}
+PostHeader.propTypes = {
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+    voteScore: PropTypes.number.isRequired,
+    commentCount: PropTypes.number.isRequired,
+};
+export {PostHeader};
+
+class FullPostWithComments extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,17 +116,25 @@ class PostFull extends React.Component {
     render() {
         let filtered_posts = this.props.posts.filter(post => post.id === this.props.id);
         if (filtered_posts.length === 1) {
-            let post = filtered_posts[0]
+            let post = filtered_posts[0];
+            let body;
+            if (!this.state.editing) {
+                body = <div>
+                        <Body body={post.body} />
+                        <button onClick={this.onEdit}>Edit</button>
+                    </div>;
+            } else {
+                body = <BodyEdit body={post.body} onCancel={this.onEditCancel} onOK={this.onEditOK} />;
+            }
             return (
                 <div>
                     <PostHeader {...post} />
-                    {!this.state.editing && <div><PostBody body={post.body} /><button onClick={this.onEdit}>Edit</button></div>}
-                    {this.state.editing && <PostEditBody body={post.body} onCancel={this.onEditCancel} onOK={this.onEditOK} />}
+                    {body}
                     <Comments comments={this.props.comments[post.id]} />
                 </div>
-            )
+            );
         }
-        return <InvalidPost />
+        return <InvalidPost />;
     }
 }
 
@@ -97,4 +145,4 @@ function mapStateToProps({posts, comments}) {
 	};
 }
 
-export default connect(mapStateToProps, null)(PostFull);
+export default connect(mapStateToProps, null)(FullPostWithComments);

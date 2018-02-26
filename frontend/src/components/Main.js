@@ -1,18 +1,28 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 import Categories from './Categories';
-import AddLink from './AddLink';
 import PostSummaries from './PostSummaries';
+
+const MainWrapper = styled.div`
+`;
+
+const PlainLink = styled(Link)`
+    background: transparent;
+    text-decoration: none;
+    margin: 1rem;
+`;
 
 const Main = (props) => { 
     return (
-        <div>
+        <MainWrapper>
             <Categories categories={props.categories} />
-            <AddLink />
+            <PlainLink to="/add">Add</PlainLink>
             <PostSummaries posts={props.posts} />
-        </div>
+        </MainWrapper>
     );
 }
 

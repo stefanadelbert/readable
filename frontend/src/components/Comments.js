@@ -1,17 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
+import Author from './Author';
+import Timestamp from './Timestamp';
+import VoteScore from './VoteScore';
+
+const CommentContainer = styled.div`
+    padding: 1rem;
+    margin: 0.20rem;
+`;
+const CommentDetailsWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+`;
 const Comment = (props) => {
-    let timestamp = new Date(props.timestamp).toString();
     return (
-        <div>
-            <div>
-                <div>{props.body}</div>
-                <div>{props.author}</div>
-                <div>{timestamp}</div>
-                <div>{props.voteScore}</div>
-            </div>
-        </div>
+        <CommentContainer>
+            <div style={{flex: 1}}>{props.body}</div>
+            <CommentDetailsWrapper>
+                <Author author={props.author}/>
+                <Timestamp timestamp={props.timestamp} />
+                <VoteScore voteScore={props.voteScore}/>
+            </CommentDetailsWrapper>
+        </CommentContainer>
     );
 }
 Comment.propTypes = {
@@ -28,14 +41,14 @@ const Comments = ({comments}) => {
     return (
         <ul>
             {comments.map(comment => (
-                <li key={comment.id}>
+                <div key={comment.id}>
                     <Comment
                         body={comment.body}
                         author={comment.author}
                         timestamp={comment.timestamp}
                         voteScore={comment.voteScore}
                     />
-                </li>
+                </div>
             ))}
         </ul>
     );

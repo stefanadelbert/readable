@@ -1,27 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
 
-import PostHeader from './PostHeader';
+import {PostHeader} from './Post';
+
+const PostSummariesWrapper = styled.div``;
+const PlainLink = styled(Link)`
+    color: black;
+    text-decoration: none;
+`;
 
 const PostSummaries = (props) => {
     return (
-        <ul>
+        <PostSummariesWrapper>
             {props.posts.map(post =>
-                <li key={post.id}>
-                    <Link to={`/posts/${post.id}`}>
-                        <PostHeader
-                            title={post.title}
-                            body={post.body}
-                            author={post.author}
-                            timestamp={post.timestamp}
-                            voteScore={post.voteScore}
-                            commentCount={post.commentCount}
-                        />
-                    </Link>
-                </li>
+                <PlainLink key={post.id} to={`/posts/${post.id}`}>
+                    <PostHeader
+                        title={post.title}
+                        body={post.body}
+                        author={post.author}
+                        timestamp={post.timestamp}
+                        voteScore={post.voteScore}
+                        commentCount={post.commentCount}
+                    />
+                </PlainLink>
             )}
-        </ul>
+        </PostSummariesWrapper>
     );
 };
 PostSummaries.defaultProps = {
