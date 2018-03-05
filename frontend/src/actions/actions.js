@@ -51,7 +51,7 @@ export function addPost(title, body, author, category) {
     let timestamp = Date.now();
     let id = timestamp;
     return dispatch => API.addPost(id, timestamp, title, body, author, category)
-        .then(post => console.log(post));
+        .then(post => dispatch(receivePosts([post])))
 }
 
 export function editPost(id, title, body) {
