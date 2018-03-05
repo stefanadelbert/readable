@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import styled from 'styled-components';
 
 import {addPost} from '../actions/actions';
@@ -62,6 +62,7 @@ class AddPost extends React.Component {
         body: '2',
         author: '3',
         category: '4',
+        done: false,
     }
     static defaultProps = {
         title: 'Title',
@@ -83,6 +84,7 @@ class AddPost extends React.Component {
         this.handleAuthorChange = this.handleAuthorChange.bind(this)
         this.handleCategoryChange = this.handleCategoryChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
     }
     handleTitleChange(event) {
         this.setState({title: event.target.value});
@@ -97,11 +99,16 @@ class AddPost extends React.Component {
         this.setState({category: event.target.value});
     }
     handleSubmit(event) {
-        console.log(this.state);
         this.props.addPost(this.state.title, this.state.body, this.state.author, this.state.category);
+        this.setState({done: true});
+    }
+    handleCancel(event) {
+        this.setState({done: true});
     }
     render() {
         return (
+            this.state.done?
+            <Redirect to="/" /> :
             <div>
                 <h3>New Post</h3>
                 <div>
@@ -115,7 +122,7 @@ class AddPost extends React.Component {
                     </ContainerColumnStretch>
                     <ContainerRightAlign>
                         <ButtonLink onClick={this.handleSubmit}>Submit</ButtonLink>
-                        <ButtonReactRouterLink to="/">Cancel</ButtonReactRouterLink>
+                        <ButtonLink onClick={this.handleCancel}>Cancel</ButtonLink>
                     </ContainerRightAlign>
                 </div>
             </div>
