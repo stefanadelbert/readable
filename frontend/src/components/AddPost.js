@@ -1,29 +1,87 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+import styled from 'styled-components';
 
-class EditablePost extends React.Component {
+import {addPost} from '../actions/actions';
+
+const ButtonLink = styled.a`
+    margin: 0.2rem;
+    padding: 0.2rem;
+    background: transparent;
+    text-decoration: none;
+    color: black;
+    border: black 1px solid;
+    border-radius: 0.1rem;
+    &:hover {
+        color: white;
+        background-color: grey;
+    }
+`;
+const ButtonReactRouterLink = styled(Link)`
+    margin: 0.2rem;
+    padding: 0.2rem;
+    background: transparent;
+    text-decoration: none;
+    color: black;
+    border: black 1px solid;
+    border-radius: 0.1rem;
+    &:hover {
+        color: white;
+        background-color: grey;
+    }
+`;
+const ContainerRightAlign = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;
+const ContainerColumnStretch = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+`;
+const ContainerRowStretch = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    align-items: stretch;
+    flex-wrap: wrap;
+`;
+const Input = styled.input`
+    margin: 0.2rem;
+    flex: 1;
+`;
+const TextArea = styled.textarea`
+    margin: 0.2rem;
+    resize: vertical;
+`;
+class AddPost extends React.Component {
     state = {
-        title: '',
-        body: '',
+        title: '1',
+        body: '2',
+        author: '3',
+        category: '4',
     }
     static defaultProps = {
-        title: '',
-        body: '',
+        title: 'Title',
+        body: 'Body',
+        author: 'Author',
+        category: 'Category',
     }
     static propTypes = {
         title: PropTypes.string,
         body: PropTypes.string,
-        onCancel: PropTypes.func.isRequired,
-        onSubmit: PropTypes.func.isRequired,
+        author: PropTypes.string,
+        category: PropTypes.string,
     }
     constructor(props) {
         super(props);
 
-        this.state.title = props.title;
-        this.state.body = props.body;
-
         this.handleTitleChange = this.handleTitleChange.bind(this)
         this.handleBodyChange = this.handleBodyChange.bind(this)
+        this.handleAuthorChange = this.handleAuthorChange.bind(this)
+        this.handleCategoryChange = this.handleCategoryChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     handleTitleChange(event) {
@@ -32,47 +90,43 @@ class EditablePost extends React.Component {
     handleBodyChange(event) {
         this.setState({body: event.target.value});
     }
+    handleAuthorChange(event) {
+        this.setState({author: event.target.value});
+    }
+    handleCategoryChange(event) {
+        this.setState({category: event.target.value});
+    }
     handleSubmit(event) {
-        this.props.onSubmit(this.state.title, this.state.body);
+        console.log(this.state);
+        this.props.addPost(this.state.title, this.state.body, this.state.author, this.state.category);
     }
     render() {
         return (
             <div>
-                    <div><input type="text" placeholder={"Title"} value={this.state.title} onChange={this.handleTitleChange} name="name" /></div>
-                    <div><input type="text" placeholder={"Body"} value={this.state.body} onChange={this.handleBodyChange} name="body" /></div>
-                    <div>
-                        <div><a onClick={this.handleSubmit}>Submit</a></div>
-                        <div><a onClick={this.props.onCancel}>Cancel</a></div>
-                    </div>
+                <h3>New Post</h3>
+                <div>
+                    <ContainerColumnStretch>
+                        <Input type="text" placeholder={this.props.title} value={this.state.title} onChange={this.handleTitleChange} name="title" />
+                        <TextArea type="text" placeholder={this.props.body} value={this.state.body} onChange={this.handleBodyChange} name="body" />
+                        <ContainerRowStretch>
+                            <Input type="text" placeholder={this.props.author} value={this.state.author} onChange={this.handleAuthorChange} name="author" />
+                            <Input type="text" placeholder={this.props.category} value={this.state.category} onChange={this.handleCategoryChange} name="category" />
+                        </ContainerRowStretch>
+                    </ContainerColumnStretch>
+                    <ContainerRightAlign>
+                        <ButtonLink onClick={this.handleSubmit}>Submit</ButtonLink>
+                        <ButtonReactRouterLink to="/">Cancel</ButtonReactRouterLink>
+                    </ContainerRightAlign>
+                </div>
             </div>
         );
     }
 }
 
-const EditPost = (props) => {
-    return (
-        <div>
-            <h3>Edit Post</h3>
-            <EditablePost
-                title={props.post.title}
-                body={props.post.body}
-                onCancel={() => console.log("onCancel clicked")}
-                onSubmit={(title, body) => console.log(`onSubmit clicked: ${title} ${body}`)}
-            />
-        </div>
-    );
+function mapDispatchToProps(dispatch) {
+    return {
+        addPost: (title, body, author, category) => dispatch(addPost(title, body, author, category))
+    }
 }
 
-const AddPost = (props) => {
-    return (
-        <div>
-            <h3>New Post</h3>
-            <EditablePost
-                onCancel={() => console.log("onCancel clicked")}
-                onSubmit={(title, body) => console.log(`onSubmit clicked: ${title} ${body}`)}
-            />
-        </div>
-    );
-}
-
-export {EditPost, AddPost};
+export default connect(null, mapDispatchToProps)(AddPost);
