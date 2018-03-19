@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down';
-import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up';
+import MdThumbsUpDown from 'react-icons/lib/md/thumbs-up-down';
 
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     padding: 0.2rem;
 `
-const ThumbsUp = styled(FaThumbsOUp)`
+const ThumbsUp = styled(MdThumbsUpDown)`
+    padding: 0.1rem;
     color: green;
 `
-const ThumbsDown = styled(FaThumbsODown)`
+const ThumbsDown = styled(MdThumbsUpDown)`
+    padding: 0.1rem;
     color: darkred;
 `
 const VoteScore = (props) => {

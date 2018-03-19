@@ -8,10 +8,13 @@ const Wrapper = styled.div`
     align-items: center;
     padding: 0.2rem;
 `
+const Content = styled.span`
+`;
 const Author = (props) => {
     return (
         <Wrapper>
-            <FaUser/>{props.author}
+            <FaUser/>
+            <Content>{props.author}</Content>
         </Wrapper>
     );
 }

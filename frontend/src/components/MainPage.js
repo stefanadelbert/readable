@@ -27,19 +27,18 @@ const ButtonLink = styled(Link)`
         background-color: grey;
     }
 `;
-const Main = (props) => { 
+const MainPage = (props) => { 
     return (
         <MainContainer>
             <Categories categories={props.categories} />
             <ContainerRightAlign>
-                <ButtonLink to="/add">New Post</ButtonLink>
+                <ButtonLink to="/new">New Post</ButtonLink>
             </ContainerRightAlign>
             <PostSummaries posts={props.posts} />
         </MainContainer>
     );
 }
-
-Main.propTypes = {
+MainPage.propTypes = {
     categories: PropTypes.array.isRequired,
     posts: PropTypes.array.isRequired,
 }
@@ -55,4 +54,4 @@ function mapDispatchToProps(dispatch) {
 	return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

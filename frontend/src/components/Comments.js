@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import MdEdit from 'react-icons/lib/md/edit';
+import MdThumbUp from 'react-icons/lib/md/thumb-up';
+import MdThumbDown from 'react-icons/lib/md/thumb-down';
 
 import Author from './Author';
 import Timestamp from './Timestamp';
@@ -23,6 +26,11 @@ const Comment = (props) => {
                 <Author author={props.author}/>
                 <Timestamp timestamp={props.timestamp} />
                 <VoteScore voteScore={props.voteScore}/>
+            </CommentDetailsWrapper>
+            <CommentDetailsWrapper>
+                <MdThumbUp />
+                <MdThumbDown />
+                <MdEdit />
             </CommentDetailsWrapper>
         </CommentContainer>
     );

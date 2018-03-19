@@ -8,10 +8,12 @@ const Wrapper = styled.div`
     align-items: center;
     padding: 0.2rem;
 `
+const Content = styled.span``;
 const CommentCount = (props) => {
     return (
         <Wrapper>
-            <FaCommentO/>{props.commentCount}
+            <FaCommentO/>
+            <Content>{props.commentCount}</Content>
         </Wrapper>
     );
 }

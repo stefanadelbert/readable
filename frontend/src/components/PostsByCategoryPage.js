@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import PostSummaries from './PostSummaries';
 
-const PostsByCategory = ({posts, category}) => {
+const PostsByCategoryPage = ({posts, category}) => {
     let filtered_posts = posts.filter(
         post => post.category === category
     );
@@ -15,7 +15,7 @@ const PostsByCategory = ({posts, category}) => {
         </div>
     )
 }
-PostsByCategory.propTypes = {
+PostsByCategoryPage.propTypes = {
     posts: PropTypes.array.isRequired,
     category: PropTypes.string.isRequired,
 }
@@ -25,4 +25,4 @@ function mapStateToProps({posts}) {
 	};
 }
 
-export default connect(mapStateToProps, null)(PostsByCategory);
+export default connect(mapStateToProps, null)(PostsByCategoryPage);

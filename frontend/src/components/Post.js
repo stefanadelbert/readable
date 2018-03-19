@@ -1,68 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import Remarkable from 'remarkable';
 import styled from 'styled-components';
 
 import Author from './Author';
-import Comments from './Comments';
 import Timestamp from './Timestamp';
 import VoteScore from './VoteScore';
 import CommentCount from './CommentCount';
+import { ContainerRightAlign, ContainerColumnStretch, ContainerRowStretch} from './Containers.js';
 
-const Body = ({body}) => {
-    let remarkable = new Remarkable();
-    const rendered_body = remarkable.render(body);
-    return (
-        <div dangerouslySetInnerHTML={{__html: rendered_body}}/>
-    );
-}
-Body.propTypes = {
-    body: PropTypes.string.isRequired,
-}
-
-const InvalidPost = (props) => {
-    return (
-        <div>
-            <h3>Invalid Post</h3>
-        </div>
-    )
-}
-
-class BodyEdit extends React.Component {
-    static propTypes = {
-        body: PropTypes.string.isRequired,
+const Button = styled.button`
+    margin: 0.2rem;
+    padding: 0.2rem;
+    background: transparent;
+    text-decoration: none;
+    color: black;
+    border: black 1px solid;
+    border-radius: 0.1rem;
+    &:hover {
+        color: white;
+        background-color: grey;
     }
-    constructor(props) {
-        super(props);
-        this.state = {
-            bodyDraft: props.body
-        }
-        this.remarkable = new Remarkable();
-        this.handleBodyChange = this.handleBodyChange.bind(this);
-    }
-    handleBodyChange(event) {
-        this.setState({bodyDraft: event.target.value})
-    }
-    render() {
-        const rendered_body = this.remarkable.render(this.state.bodyDraft);
-        return (
-            <div>
-                <div dangerouslySetInnerHTML={{__html: rendered_body}}/>
-                <textarea value={this.state.bodyDraft} onChange={this.handleBodyChange} />
-                <button onClick={this.props.onCancel}>Cancel</button>
-                <button onClick={() => this.props.onOK(this.state.bodyDraft)}>OK</button>
-            </div>
-        )
-    }
-}
-
+`;
 const PostHeaderContainer = styled.div`
     padding: 1rem;
     margin: 0.20rem;
-    border-left: 0.3rem grey solid;
     &:hover {
-        border-left-color: darkred;
+        background-color: #eeeeee;
     }
 `;
 const PostHeaderDetailsWrapper = styled.div`
@@ -71,78 +34,109 @@ const PostHeaderDetailsWrapper = styled.div`
     justify-content: flex-end;
 `;
 const Title = styled.div`flex: 1;`;
-const PostHeader = (props) => {
-    return (
-        <PostHeaderContainer>
-            <Title><strong>{props.title}</strong></Title>
-            <PostHeaderDetailsWrapper>
-                <Author author={props.author}/>
-                <Timestamp timestamp={props.timestamp}/>
-                <VoteScore voteScore={props.voteScore}/>
-                <CommentCount commentCount={props.commentCount}/>
-        </PostHeaderDetailsWrapper>
-        </PostHeaderContainer>
-    );
+class Post extends React.Component {
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        body: PropTypes.string.isRequired,
+        author: PropTypes.string.isRequired,
+        category: PropTypes.string.isRequired,
+        voteScore: PropTypes.number.isRequired,
+        commentCount: PropTypes.number.isRequired,
+    }
+    render() {
+        return (
+            <PostHeaderContainer>
+                <PostHeaderDetailsWrapper>
+                    <Author author={this.props.author}/>
+                    <Timestamp timestamp={this.props.timestamp}/>
+                    <VoteScore voteScore={this.props.voteScore}/>
+                    <CommentCount commentCount={this.props.commentCount}/>
+                </PostHeaderDetailsWrapper>
+                <Title><strong>{this.props.title}</strong></Title>
+                <p>{this.props.body}</p>
+            </PostHeaderContainer>
+        )
+    }
 }
-PostHeader.propTypes = {
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    timestamp: PropTypes.number.isRequired,
-    voteScore: PropTypes.number.isRequired,
-    commentCount: PropTypes.number.isRequired,
-};
-export {PostHeader};
 
-class FullPostWithComments extends React.Component {
+const Input = styled.input`
+    margin: 0.2rem;
+    flex: 1;
+`;
+const TextArea = styled.textarea`
+    margin: 0.2rem;
+    resize: vertical;
+`;
+class EditPost extends React.Component {
+    static defaultProps = {
+        title: '',
+        body: '',
+        author: '',
+        category: '',
+    }
+    static propTypes = {
+        title: PropTypes.string,
+        body: PropTypes.string,
+        author: PropTypes.string,
+        category: PropTypes.string,
+        onDone: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+    }
     constructor(props) {
         super(props);
         this.state = {
-            editing: false,
+            title: this.props.title,
+            body: this.props.body,
+            author: this.props.author,
+            category: this.props.author,
         }
-        this.onEdit = this.onEdit.bind(this);
-        this.onEditCancel = this.onEditCancel.bind(this);
-        this.onEditOK = this.onEditOK.bind(this);
+
+        this.handleTitleChange = this.handleTitleChange.bind(this)
+        this.handleBodyChange = this.handleBodyChange.bind(this)
+        this.handleAuthorChange = this.handleAuthorChange.bind(this)
+        this.handleCategoryChange = this.handleCategoryChange.bind(this)
+        this.handleDone = this.handleDone.bind(this)
+        this.handleCancel = this.handleCancel.bind(this)
     }
-    onEdit() {
-        this.setState({editing: true});
+    handleTitleChange(event) {
+        this.setState({title: event.target.value});
     }
-    onEditCancel() {
-        this.setState({editing: false});
+    handleBodyChange(event) {
+        this.setState({body: event.target.value});
     }
-    onEditOK(body) {
-        console.log(`Set post body to: ${body}`);
-        this.setState({editing: false});
+    handleAuthorChange(event) {
+        this.setState({author: event.target.value});
+    }
+    handleCategoryChange(event) {
+        this.setState({category: event.target.value});
+    }
+    handleDone(event) {
+        this.props.onDone(this.state.title, this.state.body, this.state.author, this.state.category);
+    }
+    handleCancel(event) {
+        this.props.onCancel();
     }
     render() {
-        let filtered_posts = this.props.posts.filter(post => post.id === this.props.id);
-        if (filtered_posts.length === 1) {
-            let post = filtered_posts[0];
-            let body;
-            if (!this.state.editing) {
-                body = <div>
-                        <Body body={post.body} />
-                        <button onClick={this.onEdit}>Edit</button>
-                    </div>;
-            } else {
-                body = <BodyEdit body={post.body} onCancel={this.onEditCancel} onOK={this.onEditOK} />;
-            }
-            return (
+        return (
+            <div>
+                <h3>New Post</h3>
                 <div>
-                    <PostHeader {...post} />
-                    {body}
-                    <Comments comments={this.props.comments[post.id]} />
+                    <ContainerColumnStretch>
+                        <Input type="text" placeholder={'Title'} value={this.state.title} onChange={this.handleTitleChange} name="title" />
+                        <TextArea type="text" placeholder={'Body'} value={this.state.body} onChange={this.handleBodyChange} name="body" />
+                        <ContainerRowStretch>
+                            <Input type="text" placeholder={'Author'} value={this.state.author} onChange={this.handleAuthorChange} name="author" />
+                            <Input type="text" placeholder={'Category'} value={this.state.category} onChange={this.handleCategoryChange} name="category" />
+                        </ContainerRowStretch>
+                    </ContainerColumnStretch>
+                    <ContainerRightAlign>
+                        <Button onClick={this.handleDone}>Done</Button>
+                        <Button onClick={this.handleCancel}>Cancel</Button>
+                    </ContainerRightAlign>
                 </div>
-            );
-        }
-        return <InvalidPost />;
+            </div>
+        );
     }
 }
 
-function mapStateToProps({posts, comments}) {
-	return {
-        posts,
-        comments
-	};
-}
-
-export default connect(mapStateToProps, null)(FullPostWithComments);
+export {Post, EditPost};

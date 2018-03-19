@@ -29,7 +29,7 @@ export const fetchComments = (id) =>
             error => console.error(error)
         )
 
-export const addPost = (id, timestamp, title, body, author, category) =>
+export const newPost = (id, timestamp, title, body, author, category) =>
     fetch(
         `${api}/posts`,
         {
@@ -50,11 +50,10 @@ export const addPost = (id, timestamp, title, body, author, category) =>
             )
         },
     )
-        .then(
-            res => res.json(),
-            error => console.error(error)
-        )
-
+    .then(
+        res => res.json(),
+        error => console.error(error)
+    )
 
 export const editPost = (id, title, body) =>
     fetch(

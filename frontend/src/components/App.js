@@ -2,12 +2,12 @@ import React from 'react';
 import { Switch, Route } from "react-router-dom";
 import styled from 'styled-components';
 
-import AddPost from './AddPost';
-import Main from './Main';
-import PageNotFound from './PageNotFound';
-import Post from './Post';
-import PostsByCategory from './PostsByCategory';
 import Header from './Header';
+import MainPage from './MainPage';
+import NewPostPage from './NewPostPage';
+import PostsByCategoryPage from './PostsByCategoryPage';
+import ExistingPostPage from './ExistingPostPage';
+import PageNotFound from './PageNotFound';
 
 const AppWrapper = styled.div`
     width: 90%;
@@ -19,10 +19,10 @@ const App = (props) => {
         <AppWrapper>
             <Header />
             <Switch>
-                <Route exact path="/" component={Main} />
-                <Route exact path="/add" component={AddPost} />
-                <Route path="/categories/:category" render={({match}) => <PostsByCategory category={match.params.category} />} />
-                <Route path="/posts/:id" render={({match}) => <Post id={match.params.id} />} />
+                <Route exact path="/" component={MainPage} />
+                <Route exact path="/new" component={NewPostPage} />
+                <Route path="/categories/:category" render={({match}) => <PostsByCategoryPage category={match.params.category} />} />
+                <Route path="/posts/:id" render={({match}) => <ExistingPostPage id={match.params.id} />} />
                 <Route path="/pagenotfound" component={PageNotFound} />
                         
             </Switch>

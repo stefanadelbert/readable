@@ -1,26 +1,26 @@
 import * as API from '../utils/api';
 
-export const ADD_CATEGORIES = 'ADD_CATEGORIES';
-export const ADD_POSTS = 'ADD_POSTS';
-export const ADD_COMMENTS = 'ADD_COMMENTS';
+export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 
 export function receiveCategories(categories) {
 	return {
-		type: ADD_CATEGORIES,
+		type: RECEIVE_CATEGORIES,
 		categories
 	}
 }
 
 export function receivePosts(posts) {
 	return {
-		type: ADD_POSTS,
+		type: RECEIVE_POSTS,
 		posts
 	}
 }
 
 export function receiveComments(postId, comments) {
 	return {
-		type: ADD_COMMENTS,
+		type: RECEIVE_COMMENTS,
         postId,
 		comments
 	}
@@ -47,10 +47,11 @@ export function fetchComments(post) {
     )
 }
 
-export function addPost(title, body, author, category) {
+export function newPost(title, body, author, category) {
+    console.log('newPost');
     let timestamp = Date.now();
-    let id = timestamp;
-    return dispatch => API.addPost(id, timestamp, title, body, author, category)
+    let id = String(timestamp);
+    return dispatch => API.newPost(id, timestamp, title, body, author, category)
         .then(post => dispatch(receivePosts([post])))
 }
 
