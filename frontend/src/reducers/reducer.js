@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS} from '../actions/actions';
+import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS} from '../actions/actions';
 
 function categories(state = [], action) {
 	switch(action.type) {
@@ -15,6 +15,10 @@ function posts(state = [], action) {
 	switch(action.type) {
 		case RECEIVE_POSTS:
 			return [...state, ...action.posts];
+		case UPDATE_POST:
+            // TODO: Update the relevant post here. //
+            console.log('UPDATE_POST');
+            return state
 		default:
 			return state;
 	}

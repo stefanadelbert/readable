@@ -57,7 +57,7 @@ export const newPost = (id, timestamp, title, body, author, category) =>
 
 export const editPost = (id, title, body) =>
     fetch(
-        `${api}/posts/:${id}`,
+        `${api}/posts/${id}`,
         {
             method: 'PUT',
             headers,
@@ -65,6 +65,26 @@ export const editPost = (id, title, body) =>
                 title,
                 body,
             }
+        },
+    ).then(
+        res => res.json(),
+        error => console.error(error)
+    )
+
+export const votePost = (id, option) =>
+    fetch(
+        `${api}/posts/${id}`,
+        {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    option,
+                }
+            )
         },
     ).then(
         res => res.json(),

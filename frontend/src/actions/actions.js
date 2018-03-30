@@ -3,6 +3,7 @@ import * as API from '../utils/api';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
+export const UPDATE_POST = 'UPDATE_POST';
 
 export function receiveCategories(categories) {
 	return {
@@ -15,6 +16,13 @@ export function receivePosts(posts) {
 	return {
 		type: RECEIVE_POSTS,
 		posts
+	}
+}
+
+export function updatePost(post) {
+	return {
+		type: UPDATE_POST,
+		post
 	}
 }
 
@@ -42,9 +50,10 @@ export function fetchPosts() {
 }
 
 export function fetchComments(post) {
-    return dispatch => API.fetchComments(post.id).then(
-        comments => dispatch(receiveComments(post.id, comments))
-    )
+    return dispatch => API.fetchComments(post.id)
+        .then(
+            comments => dispatch(receiveComments(post.id, comments))
+        )
 }
 
 export function newPost(title, body, author, category) {
@@ -52,9 +61,18 @@ export function newPost(title, body, author, category) {
     let timestamp = Date.now();
     let id = String(timestamp);
     return dispatch => API.newPost(id, timestamp, title, body, author, category)
-        .then(post => dispatch(receivePosts([post])))
+        .then(post => dispatch(receivePosts([post])));
 }
 
 export function editPost(id, title, body) {
-    return dispatch => API.editPost(id, title, body)
+    console.log('Ediiting post');
+    return dispatch => API.editPost(id, title, body);
+}
+
+export function votePost(id, option) {
+    console.log('Voting');
+    return dispatch => API.votePost(id, option)
+        .then(
+            post => dispatch(receivePosts([post]))
+        );
 }

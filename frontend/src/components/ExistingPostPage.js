@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 
 import {Post, EditPost} from './Post';
 import Comments from './Comments';
+import {ContainerRightAlign} from './Containers.js';
+import {votePost} from '../actions/actions';
 
 const InvalidPost = (props) => {
     return (
@@ -18,9 +20,14 @@ class ExistingPostPage extends React.Component {
         this.state = {
             editing: false,
         }
+        this.onVote = this.onVote.bind(this);
         this.onEdit = this.onEdit.bind(this);
         this.onEditCancel = this.onEditCancel.bind(this);
         this.onEditDone = this.onEditDone.bind(this);
+    }
+    onVote(id, option) {
+        console.log('onVote', id, option);
+        this.props.votePost(id, option);
     }
     onEdit() {
         this.setState({editing: true});
@@ -49,7 +56,11 @@ class ExistingPostPage extends React.Component {
             return (
                 <div>
                     <Post {...post} />
-                    <button onClick={this.onEdit}>Edit</button>
+                    <ContainerRightAlign>
+                        <button onClick={() => this.onVote(post.id, 'downVote')}>Down</button>
+                        <button onClick={() => this.onVote(post.id, 'upVote')}>Up</button>
+                        <button onClick={this.onEdit}>Edit</button>
+                    </ContainerRightAlign>
                     <Comments comments={this.props.comments[post.id]} />
                 </div>
             );
@@ -64,4 +75,10 @@ function mapStateToProps({posts, comments}) {
 	};
 }
 
-export default connect(mapStateToProps, null)(ExistingPostPage);
+function mapDispatchToProps(dispatch) {
+    return {
+        votePost: (id, option) => dispatch(votePost(id, option))
+    };
+} 
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExistingPostPage);

@@ -21,19 +21,20 @@ const Button = styled.button`
         background-color: grey;
     }
 `;
-const PostHeaderContainer = styled.div`
+const PostContainer = styled.div`
     padding: 1rem;
     margin: 0.20rem;
     &:hover {
         background-color: #eeeeee;
     }
 `;
-const PostHeaderDetailsWrapper = styled.div`
+const DetailsWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
 `;
-const Title = styled.div`flex: 1;`;
+const Title = styled.div``;
+const Body = styled.div`padding: 1rem;`;
 class Post extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
@@ -45,16 +46,16 @@ class Post extends React.Component {
     }
     render() {
         return (
-            <PostHeaderContainer>
-                <PostHeaderDetailsWrapper>
+            <PostContainer>
+                <DetailsWrapper>
                     <Author author={this.props.author}/>
                     <Timestamp timestamp={this.props.timestamp}/>
                     <VoteScore voteScore={this.props.voteScore}/>
                     <CommentCount commentCount={this.props.commentCount}/>
-                </PostHeaderDetailsWrapper>
+                </DetailsWrapper>
                 <Title><strong>{this.props.title}</strong></Title>
-                <p>{this.props.body}</p>
-            </PostHeaderContainer>
+                <Body>{this.props.body}</Body>
+            </PostContainer>
         )
     }
 }
