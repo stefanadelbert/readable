@@ -12,10 +12,12 @@ class NewPostPage extends React.Component {
     }
     onCancel() {
         console.log('Cancel');
+        this.props.history.goBack();
     }
     onDone(title, body, author, category) {
         console.log('Done', title, body, author, category);
         this.props.newPost(title, body, author, category);
+        this.props.history.goBack();
     }
     render() {
         return (
