@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import {Button, ButtonGroup} from 'reactstrap';
 
 import Author from './Author';
 import Timestamp from './Timestamp';
@@ -8,19 +9,6 @@ import VoteScore from './VoteScore';
 import CommentCount from './CommentCount';
 import { ContainerRightAlign, ContainerColumnStretch, ContainerRowStretch} from './Containers.js';
 
-const Button = styled.button`
-    margin: 0.2rem;
-    padding: 0.2rem;
-    background: transparent;
-    text-decoration: none;
-    color: black;
-    border: black 1px solid;
-    border-radius: 0.1rem;
-    &:hover {
-        color: white;
-        background-color: grey;
-    }
-`;
 const PostContainer = styled.div`
     padding: 1rem;
     margin: 0.20rem;
@@ -131,8 +119,10 @@ class EditPost extends React.Component {
                         </ContainerRowStretch>
                     </ContainerColumnStretch>
                     <ContainerRightAlign>
-                        <Button onClick={this.handleDone}>Done</Button>
-                        <Button onClick={this.handleCancel}>Cancel</Button>
+                        <ButtonGroup>
+                            <Button color="primary" onClick={this.handleDone}>Done</Button>
+                            <Button color="danger" onClick={this.handleCancel}>Cancel</Button>
+                        </ButtonGroup>
                     </ContainerRightAlign>
                 </div>
             </div>

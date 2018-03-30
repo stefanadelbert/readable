@@ -1,5 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Button, ButtonGroup} from 'reactstrap';
+import MdThumbUp from 'react-icons/lib/md/thumb-up';
+import MdThumbDown from 'react-icons/lib/md/thumb-down';
 
 import {Post, EditPost} from './Post';
 import Comments from './Comments';
@@ -57,9 +60,11 @@ class ExistingPostPage extends React.Component {
                 <div>
                     <Post {...post} />
                     <ContainerRightAlign>
-                        <button onClick={() => this.onVote(post.id, 'downVote')}>Down</button>
-                        <button onClick={() => this.onVote(post.id, 'upVote')}>Up</button>
-                        <button onClick={this.onEdit}>Edit</button>
+                        <ButtonGroup>
+                            <Button color="danger" onClick={() => this.onVote(post.id, 'downVote')}><MdThumbDown/></Button>
+                            <Button color="success" onClick={() => this.onVote(post.id, 'upVote')}><MdThumbUp/></Button>
+                            <Button onClick={this.onEdit}>Edit</Button>
+                        </ButtonGroup>
                     </ContainerRightAlign>
                     <Comments comments={this.props.comments[post.id]} />
                 </div>
