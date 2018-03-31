@@ -1,6 +1,10 @@
 import {combineReducers} from 'redux';
+import {schema, normalize} from 'normalizr';
 
 import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS} from '../actions/actions';
+
+const postSchema = new schema.Entity('posts');
+const postListSchema = [postSchema];
 
 function categories(state = [], action) {
 	switch(action.type) {
@@ -11,14 +15,15 @@ function categories(state = [], action) {
 	}
 }
 
-function posts(state = [], action) {
+function posts(state = {result: [], entities: {posts: {}}}, action) {
 	switch(action.type) {
 		case RECEIVE_POSTS:
-			return [...state, ...action.posts];
+            var normalizedPosts = normalize(action.posts, postListSchema);
+			return Object.assign(state, normalizedPosts);
 		case UPDATE_POST:
-            // TODO: Update the relevant post here. //
             console.log('UPDATE_POST');
-            return state
+            var normalizedPost = normalize(action.post, postSchema);
+			return Object.assign(state, normalizedPost);
 		default:
 			return state;
 	}

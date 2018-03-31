@@ -34,13 +34,13 @@ const MainPage = (props) => {
             <ContainerRightAlign>
                 <ButtonLink to="/new">New Post</ButtonLink>
             </ContainerRightAlign>
-            <PostSummaries posts={props.posts} />
+            <PostSummaries ids={props.posts.result} posts={props.posts.entities.posts} />
         </MainContainer>
     );
 }
 MainPage.propTypes = {
     categories: PropTypes.array.isRequired,
-    posts: PropTypes.array.isRequired,
+    posts: PropTypes.object.isRequired,
 }
 
 function mapStateToProps({categories, posts}) {

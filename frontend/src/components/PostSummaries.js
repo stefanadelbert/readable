@@ -48,10 +48,13 @@ const PlainLink = styled(Link)`
     text-decoration: none;
 `;
 const PostSummaries = (props) => {
+    console.log(props.posts);
+    console.log(props.posts.result);
     return (
         <PostSummariesWrapper>
-            {props.posts.map(post =>
-                <PlainLink key={post.id} to={`/posts/${post.id}`}>
+            {props.ids.map(id => {
+                const post = props.posts[id];
+                return <PlainLink key={id} to={`/posts/${id}`}>
                     <PostHeader
                         title={post.title}
                         body={post.body}
@@ -60,15 +63,17 @@ const PostSummaries = (props) => {
                         voteScore={post.voteScore}
                         commentCount={post.commentCount}
                     />
-                </PlainLink>
-            )}
+                </PlainLink>;
+            })}
         </PostSummariesWrapper>
     );
 };
 PostSummaries.defaultProps = {
-    posts: [],
+    ids: [],
+    posts: {},
 };
 PostSummaries.propTypes = {
-    posts: PropTypes.array,
+    ids: PropTypes.array,
+    posts: PropTypes.object,
 };
 export default PostSummaries;
