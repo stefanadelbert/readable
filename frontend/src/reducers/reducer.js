@@ -15,15 +15,16 @@ function categories(state = [], action) {
 	}
 }
 
-function posts(state = {result: [], entities: {posts: {}}}, action) {
+const postsDefaultState = {result: [], entities: {posts: {}}} ;
+function posts(state = postsDefaultState, action) {
 	switch(action.type) {
 		case RECEIVE_POSTS:
             var normalizedPosts = normalize(action.posts, postListSchema);
-			return Object.assign(state, normalizedPosts);
-		case UPDATE_POST:
+            return Object.assign({}, state, normalizedPosts);
+        case UPDATE_POST:
             console.log('UPDATE_POST');
             var normalizedPost = normalize(action.post, postSchema);
-			return Object.assign(state, normalizedPost);
+			return Object.assign({}, state, normalizedPost);
 		default:
 			return state;
 	}

@@ -9,14 +9,6 @@ import Comments from './Comments';
 import {ContainerRightAlign} from './Containers.js';
 import {votePost} from '../actions/actions';
 
-const InvalidPost = (props) => {
-    return (
-        <div>
-            <h3>Invalid Post</h3>
-        </div>
-    )
-}
-
 class ExistingPostPage extends React.Component {
     constructor(props) {
         super(props);
@@ -42,12 +34,7 @@ class ExistingPostPage extends React.Component {
         this.setState({editing: false});
     }
     render() {
-        let filtered_posts = this.props.posts.filter(post => post.id === this.props.id);
-        if (filtered_posts.length !== 1) {
-            return <InvalidPost />;
-        }
-
-        let post = filtered_posts[0];
+        let post = this.props.posts[this.props.id];
         if (this.state.editing) {
             return (
                 <div>
@@ -75,7 +62,7 @@ class ExistingPostPage extends React.Component {
 
 function mapStateToProps({posts, comments}) {
 	return {
-        posts,
+        posts: posts.entities.posts,
         comments
 	};
 }
