@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import {schema, normalize} from 'normalizr';
+import merge from 'lodash/merge';
 
 import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS} from '../actions/actions';
 
@@ -19,12 +20,14 @@ const postsDefaultState = {result: [], entities: {posts: {}}} ;
 function posts(state = postsDefaultState, action) {
 	switch(action.type) {
 		case RECEIVE_POSTS:
-            var normalizedPosts = normalize(action.posts, postListSchema);
-            return Object.assign({}, state, normalizedPosts);
+            let normalizedPosts = normalize(action.posts, postListSchema);
+            var newState = merge({}, state, normalizedPosts);
+			return newState;
         case UPDATE_POST:
             console.log('UPDATE_POST');
             var normalizedPost = normalize(action.post, postSchema);
-			return Object.assign({}, state, normalizedPost);
+            var newState = merge({}, state, normalizedPost);
+			return newState;
 		default:
 			return state;
 	}

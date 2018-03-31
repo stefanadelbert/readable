@@ -6,7 +6,6 @@ import MdThumbDown from 'react-icons/lib/md/thumb-down';
 
 import {Post, EditPost} from './Post';
 import Comments from './Comments';
-import {ContainerRightAlign} from './Containers.js';
 import {votePost} from '../actions/actions';
 
 class ExistingPostPage extends React.Component {
@@ -45,14 +44,13 @@ class ExistingPostPage extends React.Component {
         } else {
             return (
                 <div>
-                    <Post {...post} />
-                    <ContainerRightAlign>
+                    <Post {...post}>
                         <ButtonGroup>
                             <Button color="danger" onClick={() => this.onVote(post.id, 'downVote')}><MdThumbDown/></Button>
                             <Button color="success" onClick={() => this.onVote(post.id, 'upVote')}><MdThumbUp/></Button>
                             <Button onClick={this.onEdit}>Edit</Button>
                         </ButtonGroup>
-                    </ContainerRightAlign>
+                    </Post>
                     <Comments comments={this.props.comments[post.id]} />
                 </div>
             );
