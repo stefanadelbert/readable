@@ -1,33 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import {Button, ButtonGroup} from 'reactstrap';
 import {Card, CardTitle, CardSubtitle, CardBody, CardText} from 'reactstrap';
 import {Form, Input} from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Author from './Author';
 import Timestamp from './Timestamp';
 import VoteScore from './VoteScore';
 import CommentCount from './CommentCount';
-import {ContainerRightAlign} from './Containers.js';
 
-const DetailsWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-`;
 const Post = (props) => {
+    let postColour = props.deleted? "danger" : "light";
     return (
-        <Card>
+        <Card color={postColour}>
             <CardBody>
                 <CardTitle>{props.title}</CardTitle>
                 <CardSubtitle>
-                    <DetailsWrapper>
+                    <div className="d-flex justify-content-end">
                         <Author author={props.author}/>
                         <Timestamp timestamp={props.timestamp}/>
                         <VoteScore voteScore={props.voteScore}/>
                         <CommentCount commentCount={props.commentCount}/>
-                    </DetailsWrapper>
+                    </div>
                 </CardSubtitle>
                 <CardText>{props.body}</CardText>
                 {props.children}
@@ -105,12 +100,12 @@ class NewPost extends React.Component {
                     <Input type="text" placeholder={'Author'} value={this.state.author} onChange={this.handleAuthorChange} name="author" />
                     <Input type="text" placeholder={'Category'} value={this.state.category} onChange={this.handleCategoryChange} name="category" />
                 </Form>
-                <ContainerRightAlign>
+                <div className="d-flex justify-content-end">
                     <ButtonGroup>
                         <Button color="primary" onClick={this.handleDone}>Done</Button>
                         <Button color="danger" onClick={this.handleCancel}>Cancel</Button>
                     </ButtonGroup>
-                </ContainerRightAlign>
+                </div>
             </div>
         );
     }
@@ -153,18 +148,22 @@ class EditPost extends React.Component {
     render() {
         return (
             <div>
+                <div className="d-flex justify-content-end">
+                    <Author author={this.props.author}/>
+                    <Timestamp timestamp={this.props.timestamp}/>
+                    <VoteScore voteScore={this.props.voteScore}/>
+                    <CommentCount commentCount={this.props.commentCount}/>
+                </div>
                 <Form>
                     <Input type="text" placeholder={'Title'} value={this.state.title} onChange={this.handleTitleChange} name="title" />
                     <Input type="textarea" placeholder={'Body'} value={this.state.body} onChange={this.handleBodyChange} name="body" />
-                    {this.props.author}
-                    {this.props.category}
+                    <div className="d-flex justify-content-end">
+                        <ButtonGroup>
+                            <Button color="primary" onClick={this.handleDone}>Done</Button>
+                            <Button color="danger" onClick={this.handleCancel}>Cancel</Button>
+                        </ButtonGroup>
+                    </div>
                 </Form>
-                <ContainerRightAlign>
-                    <ButtonGroup>
-                        <Button color="primary" onClick={this.handleDone}>Done</Button>
-                        <Button color="danger" onClick={this.handleCancel}>Cancel</Button>
-                    </ButtonGroup>
-                </ContainerRightAlign>
             </div>
         );
     }

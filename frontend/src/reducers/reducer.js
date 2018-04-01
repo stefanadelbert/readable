@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
 import {schema, normalize} from 'normalizr';
 import union from 'lodash/union';
+import difference from 'lodash/difference';
+import omit from 'lodash/omit';
 
-import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS} from '../actions/actions';
+import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT} from '../actions/actions';
 
 const postSchema = new schema.Entity('posts');
 const postListSchema = [postSchema];
@@ -30,9 +32,14 @@ function posts(state = postsDefaultState, action) {
             }
 			return newState;
         }
-        case UPDATE_POST: {
-            console.error('Shouldn\'t get here');
-			return state;
+        case POST_DELETED: {
+            let newState = {
+                result: difference(state.result, [action.id]),
+                entities: {
+                    posts: omit(state.entities.posts, action.id),
+                },
+            }
+			return newState;
         }
 		default:
 			return state;
@@ -46,6 +53,10 @@ function comments(state = {}, action) {
                 ...state,
                 [action.postId]: action.comments
             };
+		case DELETE_COMMENTS_FOR_PARENT:
+            console.error('Implement this');
+            // Remove all comments that have this ID for their parent.
+            return state;
 		default:
 			return state;
 	}

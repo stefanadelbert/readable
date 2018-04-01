@@ -4,6 +4,8 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const UPDATE_POST = 'UPDATE_POST';
+export const POST_DELETED = 'POST_DELETED';
+export const DELETE_COMMENTS_FOR_PARENT = 'DELETE_COMMENTS_FOR_PARENT';
 
 export function receiveCategories(categories) {
 	return {
@@ -23,6 +25,20 @@ export function updatePost(post) {
 	return {
 		type: UPDATE_POST,
 		post
+	}
+}
+
+export function postDeleted(id) {
+	return {
+		type: POST_DELETED,
+		id
+	}
+}
+
+export function deleteCommentsForParent(id) {
+	return {
+		type: DELETE_COMMENTS_FOR_PARENT,
+		id
 	}
 }
 
@@ -74,4 +90,10 @@ export function votePost(id, option) {
     console.log('Voting');
     return dispatch => API.votePost(id, option)
         .then(post => dispatch(receivePosts([post])));
+}
+
+export function deletePost(id) {
+    return dispatch => API.deletePost(id)
+        .then(post => dispatch(postDeleted(post.id)))
+        .then(post => dispatch(deleteCommentsForParent(post.id)))
 }

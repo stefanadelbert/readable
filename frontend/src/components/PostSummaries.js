@@ -18,6 +18,7 @@ const PostSummaries = (props) => {
                     timestamp={post.timestamp}
                     voteScore={post.voteScore}
                     commentCount={post.commentCount}
+                    deleted={post.deleted}
                 >
                     <Button tag={Link} to={`/posts/${post.id}`}>Go</Button>
                 </Post>

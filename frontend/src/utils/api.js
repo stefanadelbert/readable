@@ -95,3 +95,18 @@ export const votePost = (id, option) =>
         res => res.json(),
         error => console.error(error)
     )
+
+export const deletePost = (id) =>
+    fetch(
+        `${api}/posts/${id}`,
+        {
+            method: 'DELETE',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+        },
+    ).then(
+        res => res.json(),
+        error => console.error(error)
+    )
