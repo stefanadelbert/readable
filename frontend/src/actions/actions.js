@@ -6,6 +6,7 @@ export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const UPDATE_POST = 'UPDATE_POST';
 export const POST_DELETED = 'POST_DELETED';
 export const DELETE_COMMENTS_FOR_PARENT = 'DELETE_COMMENTS_FOR_PARENT';
+export const COMMENT_DELETED = 'COMMENT_DELETED';
 
 export function receiveCategories(categories) {
 	return {
@@ -47,6 +48,13 @@ export function receiveComments(postId, comments) {
 		type: RECEIVE_COMMENTS,
         postId,
 		comments
+	}
+}
+
+export function commentDeleted(id) {
+	return {
+		type: COMMENT_DELETED,
+		id
 	}
 }
 
@@ -96,4 +104,9 @@ export function deletePost(id) {
     return dispatch => API.deletePost(id)
         .then(post => dispatch(postDeleted(post.id)))
         .then(post => dispatch(deleteCommentsForParent(post.id)))
+}
+
+export function deleteComment(id) {
+    return dispatch => API.deleteComment(id)
+        .then(post => dispatch(commentDeleted(id)))
 }

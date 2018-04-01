@@ -110,3 +110,18 @@ export const deletePost = (id) =>
         res => res.json(),
         error => console.error(error)
     )
+
+export const deleteComment = (id) =>
+    fetch(
+        `${api}/comments/${id}`,
+        {
+            method: 'DELETE',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+        },
+    ).then(
+        res => res.json(),
+        error => console.error(error)
+    )

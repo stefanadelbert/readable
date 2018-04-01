@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Button, ButtonGroup} from 'reactstrap';
+import MdEdit from 'react-icons/lib/md/edit';
 import MdThumbUp from 'react-icons/lib/md/thumb-up';
 import MdThumbDown from 'react-icons/lib/md/thumb-down';
+import MdDeleteForever from 'react-icons/lib/md/delete-forever';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {Post, EditPost} from './Post';
@@ -61,8 +63,8 @@ class ExistingPostPage extends React.Component {
                     <ButtonGroup className="d-flex justify-content-end">
                         <Button color="danger" onClick={() => this.onVote(post.id, 'downVote')}><MdThumbDown/></Button>
                         <Button color="success" onClick={() => this.onVote(post.id, 'upVote')}><MdThumbUp/></Button>
-                        <Button onClick={this.onEdit}>Edit</Button>
-                        <Button color="danger" onClick={this.onDelete}>Delete</Button>
+                        <Button onClick={this.onEdit}><MdEdit/>Edit</Button>
+                        <Button color="danger" onClick={this.onDelete}><MdDeleteForever/>Delete</Button>
                 </ButtonGroup>
             </Post>
             <Comments comments={this.props.comments[post.id]} />

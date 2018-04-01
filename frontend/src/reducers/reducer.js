@@ -4,7 +4,7 @@ import union from 'lodash/union';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
 
-import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT} from '../actions/actions';
+import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED} from '../actions/actions';
 
 const postSchema = new schema.Entity('posts');
 const postListSchema = [postSchema];
@@ -53,6 +53,10 @@ function comments(state = {}, action) {
                 ...state,
                 [action.postId]: action.comments
             };
+        case COMMENT_DELETED:
+            console.error('Implement this');
+            // Remove this specific comment from the state. This would be easier to do if the state was an object with the id as the key.
+            return state;
 		case DELETE_COMMENTS_FOR_PARENT:
             console.error('Implement this');
             // Remove all comments that have this ID for their parent.
