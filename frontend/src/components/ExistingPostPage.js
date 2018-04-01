@@ -6,6 +6,7 @@ import MdThumbDown from 'react-icons/lib/md/thumb-down';
 
 import {Post, EditPost} from './Post';
 import Comments from './Comments';
+import {editPost} from '../actions/actions';
 import {votePost} from '../actions/actions';
 
 class ExistingPostPage extends React.Component {
@@ -20,7 +21,6 @@ class ExistingPostPage extends React.Component {
         this.onEditDone = this.onEditDone.bind(this);
     }
     onVote(id, option) {
-        console.log('onVote', id, option);
         this.props.votePost(id, option);
     }
     onEdit() {
@@ -29,8 +29,10 @@ class ExistingPostPage extends React.Component {
     onEditCancel() {
         this.setState({editing: false});
     }
-    onEditDone(body) {
+    onEditDone(title, body) {
+        console.log('ExistingPostPage.onEditDone', title, body);
         this.setState({editing: false});
+        this.props.editPost(this.props.id, title, body);
     }
     render() {
         let post = this.props.posts[this.props.id];
@@ -61,13 +63,14 @@ class ExistingPostPage extends React.Component {
 function mapStateToProps({posts, comments}) {
 	return {
         posts: posts.entities.posts,
-        comments
+        comments,
 	};
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        votePost: (id, option) => dispatch(votePost(id, option))
+        editPost: (id, title, body) => dispatch(editPost(id, title, body)),
+        votePost: (id, option) => dispatch(votePost(id, option)),
     };
 } 
 

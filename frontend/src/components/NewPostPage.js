@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {EditPost} from './Post';
+import {NewPost} from './Post';
 import {newPost} from '../actions/actions';
 
 class NewPostPage extends React.Component {
@@ -11,18 +11,16 @@ class NewPostPage extends React.Component {
         this.onDone = this.onDone.bind(this);
     }
     onCancel() {
-        console.log('Cancel');
         this.props.history.goBack();
     }
     onDone(title, body, author, category) {
-        console.log('Done', title, body, author, category);
         this.props.newPost(title, body, author, category);
         this.props.history.goBack();
     }
     render() {
         return (
             <div>
-                <EditPost
+                <NewPost
                     onDone={(title, body, author, category) => this.onDone(title, body, author, category)}
                     onCancel={this.onCancel}
                 />

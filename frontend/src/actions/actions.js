@@ -65,14 +65,13 @@ export function newPost(title, body, author, category) {
 }
 
 export function editPost(id, title, body) {
-    console.log('Ediiting post');
-    return dispatch => API.editPost(id, title, body);
+    console.log('actions.editPost', id, title, body);
+    return dispatch => API.editPost(id, title, body)
+        .then(post => dispatch(receivePosts([post])));
 }
 
 export function votePost(id, option) {
     console.log('Voting');
     return dispatch => API.votePost(id, option)
-        .then(
-            post => dispatch(receivePosts([post]))
-        );
+        .then(post => dispatch(receivePosts([post])));
 }

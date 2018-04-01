@@ -60,11 +60,16 @@ export const editPost = (id, title, body) =>
         `${api}/posts/${id}`,
         {
             method: 'PUT',
-            headers,
-            body: {
-                title,
-                body,
-            }
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    title,
+                    body,
+                }
+            )
         },
     ).then(
         res => res.json(),
