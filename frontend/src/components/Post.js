@@ -17,7 +17,7 @@ const Post = (props) => {
             <CardBody>
                 <CardTitle>{props.title}</CardTitle>
                 <CardSubtitle>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex flex-wrap justify-content-end">
                         <Author author={props.author}/>
                         <Timestamp timestamp={props.timestamp}/>
                         <VoteScore voteScore={props.voteScore}/>
