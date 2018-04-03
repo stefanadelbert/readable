@@ -4,7 +4,7 @@ import union from 'lodash/union';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
 
-import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED, RECEIVE_NEW_COMMENT} from '../actions/actions';
+import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_NEW_POST, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED, RECEIVE_NEW_COMMENT} from '../actions/actions';
 
 const postSchema = new schema.Entity('posts');
 const postListSchema = [postSchema];
@@ -31,6 +31,19 @@ function posts(state = postsDefaultState, action) {
             }
 			return newState;
         }
+        case RECEIVE_NEW_POST: {
+            let normalizedPost = normalize(action.post, postSchema);
+            let newState = {
+                result: [...state.result, action.post.id],
+                entities: {
+                    posts: {
+                        ...state.entities.posts,
+                        [action.post.id]: action.post
+                    }
+                },
+            }
+			return newState;
+        }
         case POST_DELETED: {
             let newState = {
                 result: difference(state.result, [action.id]),
@@ -52,6 +65,11 @@ function comments(state = {}, action) {
                 ...state,
                 [action.postId]: action.comments
             };
+		case RECEIVE_NEW_POST:
+            return {
+                ...state,
+                [action.post.id]: [],
+            }
 		case RECEIVE_NEW_COMMENT:
             const {parentId} = action.comment;
             return {

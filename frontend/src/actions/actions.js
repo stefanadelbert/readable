@@ -2,6 +2,7 @@ import * as API from '../utils/api';
 
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const RECEIVE_NEW_POST = 'RECEIVE_NEW_POST';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT';
 export const POST_DELETED = 'POST_DELETED';
@@ -19,6 +20,13 @@ export function receivePosts(posts) {
 	return {
 		type: RECEIVE_POSTS,
 		posts
+	}
+}
+
+export function receiveNewPost(post) {
+	return {
+		type: RECEIVE_NEW_POST,
+		post
 	}
 }
 
@@ -85,7 +93,7 @@ export function newPost(title, body, author, category) {
     let timestamp = Date.now();
     let id = String(timestamp);
     return dispatch => API.newPost(id, timestamp, title, body, author, category)
-        .then(post => dispatch(receivePosts([post])));
+        .then(post => dispatch(receiveNewPost(post)));
 }
 
 export function editPost(id, title, body) {
