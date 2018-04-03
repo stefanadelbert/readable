@@ -1,9 +1,11 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Comment from './Comment';
+import {deleteComment} from '../actions/actions';
 
-const Comments = ({comments}) => {
+const Comments = ({comments, deleteComment}) => {
     return (
         <div>
             {comments.map(comment => (
@@ -14,6 +16,7 @@ const Comments = ({comments}) => {
                         author={comment.author}
                         timestamp={comment.timestamp}
                         voteScore={comment.voteScore}
+                        onDelete={() => deleteComment(comment.parentId, comment.id)}
                     />
                 </div>
             ))}
@@ -26,4 +29,11 @@ Comments.defaultProps = {
 Comments.propTypes = {
     comments: PropTypes.array,
 }
-export default Comments;
+
+function mapDispatchToProps(dispatch) {
+    return {
+        deleteComment: (parentId, id) => dispatch(deleteComment(parentId, id)),
+    };
+} 
+
+export default connect(null, mapDispatchToProps)(Comments);

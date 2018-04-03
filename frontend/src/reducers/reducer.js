@@ -3,8 +3,9 @@ import {schema, normalize} from 'normalizr';
 import union from 'lodash/union';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
+import omitBy from 'lodash/omitBy';
 
-import {UPDATE_POST, RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED} from '../actions/actions';
+import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED} from '../actions/actions';
 
 const postSchema = new schema.Entity('posts');
 const postListSchema = [postSchema];
@@ -22,7 +23,6 @@ const postsDefaultState = {result: [], entities: {posts: {}}} ;
 function posts(state = postsDefaultState, action) {
 	switch(action.type) {
         case RECEIVE_POSTS: {
-            console.log('reducer.posts.RECEIVE_POSTS', action);
             let normalizedPosts = normalize(action.posts, postListSchema);
             let newState = {
                 result: union(state.result, normalizedPosts.result),
@@ -54,13 +54,12 @@ function comments(state = {}, action) {
                 [action.postId]: action.comments
             };
         case COMMENT_DELETED:
-            console.error('Implement this');
-            // Remove this specific comment from the state. This would be easier to do if the state was an object with the id as the key.
-            return state;
+            return {
+                ...state,
+                [action.parentId]: state[action.parentId].filter((item) => item.id !== action.id)
+            }
 		case DELETE_COMMENTS_FOR_PARENT:
-            console.error('Implement this');
-            // Remove all comments that have this ID for their parent.
-            return state;
+            return omit(state, [action.id]);
 		default:
 			return state;
 	}

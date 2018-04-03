@@ -1,12 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import MdEdit from 'react-icons/lib/md/edit';
 import MdDelete from 'react-icons/lib/md/delete';
 import {Card, CardSubtitle, CardText} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {deleteComment} from '../actions/actions';
 import Author from './Author';
 import Timestamp from './Timestamp';
 import VoteScore from './VoteScore';
@@ -18,6 +16,7 @@ class Comment extends React.Component {
         author: PropTypes.string.isRequired,
         timestamp: PropTypes.number.isRequired,
         voteScore: PropTypes.number.isRequired,
+        onDelete: PropTypes.func.isRequired,
     };
     constructor(props) {
         super(props);
@@ -34,7 +33,7 @@ class Comment extends React.Component {
     onDelete() {
         console.log('Comments.Comment.onDelete', this.props);
         this.setState({editing: false});
-        this.props.deleteComment(this.props.id);
+        this.props.onDelete();
     }
     render() {
         return (
@@ -58,10 +57,4 @@ class Comment extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        deleteComment: (id) => dispatch(deleteComment(id)),
-    };
-} 
-
-export default connect(null, mapDispatchToProps)(Comment);
+export default Comment;

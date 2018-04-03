@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {Post, EditPost} from './Post';
 import Comments from './Comments';
-import {editPost, votePost, deletePost, deleteComment} from '../actions/actions';
+import {editPost, votePost, deletePost} from '../actions/actions';
 
 class ExistingPostPage extends React.Component {
     constructor(props) {
@@ -41,7 +41,6 @@ class ExistingPostPage extends React.Component {
     }
     render() {
         let post = this.props.posts[this.props.id];
-        console.log('ExistingPost.render', post);
         if (post === undefined) {
             return (<h1>Invalid</h1>)
         }
@@ -68,7 +67,7 @@ class ExistingPostPage extends React.Component {
                     </div>
                 </div>
             </Post>
-            <Comments comments={this.props.comments[post.id]} onDelete={this.onDeleteComment}/>
+            <Comments comments={this.props.comments[post.id]}/>
                 </div>
             );
         }
@@ -87,7 +86,6 @@ function mapDispatchToProps(dispatch) {
         editPost: (id, title, body) => dispatch(editPost(id, title, body)),
         votePost: (id, option) => dispatch(votePost(id, option)),
         deletePost: (id) => dispatch(deletePost(id)),
-        deleteComment: (id) => dispatch(deleteComment(id)),
     };
 } 
 
