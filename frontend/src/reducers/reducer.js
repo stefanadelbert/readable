@@ -3,9 +3,8 @@ import {schema, normalize} from 'normalizr';
 import union from 'lodash/union';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
-import omitBy from 'lodash/omitBy';
 
-import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED} from '../actions/actions';
+import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED, RECEIVE_NEW_COMMENT} from '../actions/actions';
 
 const postSchema = new schema.Entity('posts');
 const postListSchema = [postSchema];
@@ -53,6 +52,12 @@ function comments(state = {}, action) {
                 ...state,
                 [action.postId]: action.comments
             };
+		case RECEIVE_NEW_COMMENT:
+            const {parentId} = action.comment;
+            return {
+                ...state,
+                [parentId]: [...state[parentId], action.comment]
+            }
         case COMMENT_DELETED:
             return {
                 ...state,

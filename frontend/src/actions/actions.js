@@ -3,6 +3,7 @@ import * as API from '../utils/api';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
+export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT';
 export const POST_DELETED = 'POST_DELETED';
 export const DELETE_COMMENTS_FOR_PARENT = 'DELETE_COMMENTS_FOR_PARENT';
 export const COMMENT_DELETED = 'COMMENT_DELETED';
@@ -40,6 +41,13 @@ export function receiveComments(postId, comments) {
 		type: RECEIVE_COMMENTS,
         postId,
 		comments
+	}
+}
+
+export function receiveNewComment(comment) {
+	return {
+		type: RECEIVE_NEW_COMMENT,
+		comment
 	}
 }
 
@@ -100,3 +108,18 @@ export function deleteComment(parentId, id) {
     return dispatch => API.deleteComment(id)
         .then(post => dispatch(commentDeleted(parentId, id)))
 }
+
+export function newComment(parentId, body, author) {
+    let timestamp = Date.now();
+    let id = String(timestamp);
+    return dispatch => API.newComment(id, parentId, timestamp, body, author)
+        .then(response => dispatch(receiveNewComment({
+            id,
+            parentId,
+            timestamp,
+            body,
+            author,
+            ...response
+        })));
+}
+

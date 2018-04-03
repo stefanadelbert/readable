@@ -125,3 +125,29 @@ export const deleteComment = (id) =>
         res => res.json(),
         error => console.error(error)
     )
+
+export const newComment = (id, parentId, timestamp, body, author) =>
+    fetch(
+        `${api}/comments`,
+        {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    id,
+                    parentId,
+                    timestamp,
+                    body,
+                    author,
+                }
+            )
+        },
+    )
+    .then(
+        res => res.json(),
+        error => console.error(error)
+    )
+
