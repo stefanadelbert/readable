@@ -43,6 +43,38 @@ function posts(state = postsDefaultState, action) {
             }
 			return newState;
         }
+        case RECEIVE_NEW_COMMENT: {
+            const {parentId} = action.comment;
+            let newState = {
+                result: [...state.result],
+                entities: {
+                    posts: {
+                        ...state.entities.posts,
+                        [parentId]: {
+                            ...state.entities.posts[parentId],
+                            commentCount: state.entities.posts[parentId].commentCount + 1
+                        }
+                    }
+                },
+            }
+			return newState;
+        }
+        case COMMENT_DELETED: {
+            const parentId = action.parentId;
+            let newState = {
+                result: [...state.result],
+                entities: {
+                    posts: {
+                        ...state.entities.posts,
+                        [parentId]: {
+                            ...state.entities.posts[parentId],
+                            commentCount: state.entities.posts[parentId].commentCount - 1
+                        }
+                    }
+                },
+            }
+			return newState;
+        }
         case POST_DELETED: {
             let newState = {
                 result: difference(state.result, [action.id]),
