@@ -16,7 +16,7 @@ class Categories extends React.Component {
     }
     render() {
         return (
-            <div className="btn-group">
+            <div className="btn-group p-2">
                 {this.props.categories.map(category =>
                     <button key={category} className={"btn btn-secondary" + (category === this.state.category? " active" : "")} onClick={() => this.setCategory(category)}>{category}</button>
 

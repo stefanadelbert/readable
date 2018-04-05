@@ -4,7 +4,6 @@ import MdThumbUp from 'react-icons/lib/md/thumb-up';
 import MdThumbDown from 'react-icons/lib/md/thumb-down';
 import MdEdit from 'react-icons/lib/md/edit';
 import MdDelete from 'react-icons/lib/md/delete';
-import {Card, CardSubtitle, CardText} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Author from './Author';
@@ -85,16 +84,16 @@ class Comment extends React.Component {
     }
     render() {
         return (
-            <Card className="m-1 p-1">
-                <CardSubtitle>
+            <div className="card m-1 p-1">
+                <div className="card-subtitle">
                     <div className="d-flex flex-wrap justify-content-end">
                         <Author author={this.props.author}/>
                         <Timestamp timestamp={this.props.timestamp} />
                         <VoteScore voteScore={this.props.voteScore}/>
                     </div>
-                </CardSubtitle>
+                </div>
                 {this.state.editing && <BodyEditor body={this.props.body} onDone={this.onEditDone} onCancel={this.onEditCancel}/>}
-                {!this.state.editing && <CardText>{this.props.body}</CardText>}
+                {!this.state.editing && <div className="card-text">{this.props.body}</div>}
                 {!this.state.editing && 
                     <div className="d-flex justify-content-end">
                         <div className="btn-group">
@@ -105,7 +104,7 @@ class Comment extends React.Component {
                         </div>
                     </div>
                 }
-            </Card>
+            </div>
         );
     }
 }

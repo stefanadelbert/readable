@@ -8,7 +8,8 @@ import MdDelete from 'react-icons/lib/md/delete';
 import MdComment from 'react-icons/lib/md/comment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Post, EditPost} from './Post';
+import Post from './Post';
+import EditPost from './EditPost';
 import Comments from './Comments';
 import NewComment from './NewComment';
 import {editPost, votePost, deletePost, newComment} from '../actions/actions';

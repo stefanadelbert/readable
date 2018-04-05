@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {NewPost} from './Post';
+import NewPost from './NewPost';
 import {newPost} from '../actions/actions';
 
 class NewPostPage extends React.Component {

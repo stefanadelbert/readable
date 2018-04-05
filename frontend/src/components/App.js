@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from "react-router-dom";
-import styled from 'styled-components';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from './Header';
 import MainPage from './MainPage';
@@ -8,14 +8,9 @@ import NewPostPage from './NewPostPage';
 import ExistingPostPage from './ExistingPostPage';
 import PageNotFound from './PageNotFound';
 
-const AppWrapper = styled.div`
-    width: 90%;
-    margin: 0 auto;
-`;
-
 const App = (props) => {
     return (
-        <AppWrapper>
+        <div className="w-75 mx-auto">
             <Header />
             <Switch>
                 <Route exact path="/" component={MainPage} />
@@ -24,7 +19,7 @@ const App = (props) => {
                 <Route path="/pagenotfound" component={PageNotFound} />
                         
             </Switch>
-        </AppWrapper>
+        </div>
     );
 }
 
