@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MdThumbUp from 'react-icons/lib/md/thumb-up';
+import MdThumbDown from 'react-icons/lib/md/thumb-down';
 import MdEdit from 'react-icons/lib/md/edit';
 import MdDelete from 'react-icons/lib/md/delete';
 import {Card, CardSubtitle, CardText} from 'reactstrap';
@@ -17,6 +19,7 @@ class Comment extends React.Component {
         timestamp: PropTypes.number.isRequired,
         voteScore: PropTypes.number.isRequired,
         onDelete: PropTypes.func.isRequired,
+        onVote: PropTypes.func.isRequired,
     };
     constructor(props) {
         super(props);
@@ -25,6 +28,7 @@ class Comment extends React.Component {
         }
         this.onEdit = this.onEdit.bind(this);
         this.onDelete = this.onDelete.bind(this);
+        this.onVote = this.onVote.bind(this);
     }
     onEdit() {
         console.log('Comments.Comment.onEdit', this.props);
@@ -34,6 +38,10 @@ class Comment extends React.Component {
         console.log('Comments.Comment.onDelete', this.props);
         this.setState({editing: false});
         this.props.onDelete();
+    }
+    onVote(option) {
+        console.log('Comment.onVote', option);
+        this.props.onVote(option);
     }
     render() {
         return (
@@ -48,6 +56,8 @@ class Comment extends React.Component {
                 <CardText>{this.props.body}</CardText>
                 <div className="d-flex justify-content-end">
                     <div className="btn-group">
+                        <button type="button" className="btn btn-sm" onClick={() => this.onVote('downVote')}><MdThumbDown className="text-danger"/></button>
+                        <button type="button" className="btn btn-sm" onClick={() => this.onVote('upVote')}><MdThumbUp className="text-success"/></button>
                         <button type="button" className="btn btn-sm" onClick={this.onEdit}><MdEdit/></button>
                         <button type="button" className="btn btn-sm btn-danger" onClick={this.onDelete}><MdDelete/></button>
                     </div>

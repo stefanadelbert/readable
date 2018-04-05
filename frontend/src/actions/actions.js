@@ -8,6 +8,7 @@ export const RECEIVE_NEW_COMMENT = 'RECEIVE_NEW_COMMENT';
 export const POST_DELETED = 'POST_DELETED';
 export const DELETE_COMMENTS_FOR_PARENT = 'DELETE_COMMENTS_FOR_PARENT';
 export const COMMENT_DELETED = 'COMMENT_DELETED';
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 
 export function receiveCategories(categories) {
 	return {
@@ -55,6 +56,13 @@ export function receiveComments(postId, comments) {
 export function receiveNewComment(comment) {
 	return {
 		type: RECEIVE_NEW_COMMENT,
+		comment
+	}
+}
+
+export function updateComment(comment) {
+	return {
+		type: UPDATE_COMMENT,
 		comment
 	}
 }
@@ -131,3 +139,8 @@ export function newComment(parentId, body, author) {
         })));
 }
 
+export function voteComment(id, option) {
+    console.log('actions.voteComment', id, option);
+    return dispatch => API.voteComment(id, option)
+        .then(comment => dispatch(updateComment(comment)));
+}

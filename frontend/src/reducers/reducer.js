@@ -4,7 +4,7 @@ import union from 'lodash/union';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
 
-import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_NEW_POST, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED, RECEIVE_NEW_COMMENT} from '../actions/actions';
+import {RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_NEW_POST, RECEIVE_COMMENTS, POST_DELETED, DELETE_COMMENTS_FOR_PARENT, COMMENT_DELETED, RECEIVE_NEW_COMMENT, UPDATE_COMMENT} from '../actions/actions';
 
 const postSchema = new schema.Entity('posts');
 const postListSchema = [postSchema];
@@ -32,7 +32,6 @@ function posts(state = postsDefaultState, action) {
 			return newState;
         }
         case RECEIVE_NEW_POST: {
-            let normalizedPost = normalize(action.post, postSchema);
             let newState = {
                 result: [...state.result, action.post.id],
                 entities: {
@@ -70,12 +69,27 @@ function comments(state = {}, action) {
                 ...state,
                 [action.post.id]: [],
             }
-		case RECEIVE_NEW_COMMENT:
+        case RECEIVE_NEW_COMMENT: {
             const {parentId} = action.comment;
             return {
                 ...state,
-                [parentId]: [...state[parentId], action.comment]
+                [parentId]: [
+                    ...state[parentId].filter(comment => comment.id !== action.comment.id),
+                    action.comment
+                ]
             }
+        }
+		case UPDATE_COMMENT: {
+            const {parentId, id} = action.comment;
+            return {
+                ...state,
+                [parentId]: state[parentId].map(
+                    comment => {
+                        return comment.id === id? action.comment : comment;
+                    }
+                )
+            }
+        }
         case COMMENT_DELETED:
             return {
                 ...state,

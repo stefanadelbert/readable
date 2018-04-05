@@ -151,3 +151,23 @@ export const newComment = (id, parentId, timestamp, body, author) =>
         error => console.error(error)
     )
 
+export const voteComment = (id, option) =>
+    fetch(
+        `${api}/comments/${id}`,
+        {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    option,
+                }
+            )
+        },
+    ).then(
+        res => res.json(),
+        error => console.error(error)
+    )
+
