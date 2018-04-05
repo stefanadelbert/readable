@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import MdThumbUp from 'react-icons/lib/md/thumb-up';
 import MdThumbDown from 'react-icons/lib/md/thumb-down';
-import MdChevronRight from 'react-icons/lib/md/chevron-right';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Post from './Post';

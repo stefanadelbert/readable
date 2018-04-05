@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 import MdEdit from 'react-icons/lib/md/edit';
 import MdThumbUp from 'react-icons/lib/md/thumb-up';
 import MdThumbDown from 'react-icons/lib/md/thumb-down';
@@ -56,7 +55,6 @@ class ExistingPostPage extends React.Component {
     }
     onNewCommentDone(id, body, author) {
         this.setState({commenting: false});
-        console.log('ExistingPostPage.onNewCommentDone', id, body, author);
         this.props.newComment(id, body, author);
     }
     render() {

@@ -61,25 +61,20 @@ class Comment extends React.Component {
         this.onEditCancel = this.onEditCancel.bind(this);
     }
     onEdit() {
-        console.log('Comments.Comment.onEdit', this.props);
         this.setState({editing: true});
     }
     onDelete() {
-        console.log('Comments.Comment.onDelete', this.props);
         this.setState({editing: false});
         this.props.onDelete();
     }
     onVote(option) {
-        console.log('Comment.onVote', option);
         this.props.onVote(option);
     }
     onEditDone(body) {
-        console.log('Comment.onEditDone', body);
         this.setState({editing: false})
         this.props.onEdit(body);
     }
     onEditCancel() {
-        console.log('Comment.onEditCancel');
         this.setState({editing: false})
     }
     render() {

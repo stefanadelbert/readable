@@ -35,7 +35,6 @@ class EditPost extends React.Component {
         this.setState({body: event.target.value});
     }
     handleDone(event) {
-        console.log('EditPost.handleDone');
         this.props.onDone(this.state.title, this.state.body);
     }
     handleCancel(event) {

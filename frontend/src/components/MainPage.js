@@ -16,7 +16,7 @@ const filterPostsByCategory = (posts, category) => {
 }
 
 const sortPosts = (posts, field, direction) => {
-    if ("asc" == direction) {
+    if ("asc" === direction) {
         return posts.sort((a, b) => a[field] > b[field]);
     } else {
         return posts.sort((a, b) => a[field] < b[field]);
@@ -42,14 +42,11 @@ class MainPage extends React.Component {
         this.setSort = this.setSort.bind(this);
     }
     setSort(sortField) {
-        console.log('MainPage.setSort', sortField);
         if (sortField === this.state.sortField) {
-            console.log('toggling');
             this.setState({
                 sortDirection: (this.state.sortDirection === "asc"? "desc" : "asc")
             })
         } else {
-            console.log('switching');
             this.setState({
                 sortField,
                 sortDirection: "asc"
