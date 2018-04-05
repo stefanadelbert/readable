@@ -1,22 +1,81 @@
-# Readable API Server
+# Readable Project
 
-This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+Readable is a single paged web app which manages posts and comments.
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
+## Getting Started
 
-## Start Developing
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-To get started developing right away:
+### Prerequisites
 
-* Install and start the API server
-    - `cd api-server`
-    - `npm install`
-    - `node server`
-* In another terminal window, use Create React App to scaffold out the front-end
-    - `create-react-app frontend`
-    - `cd frontend`
-    - `npm start`
+* git
+* npm (bundled with `node`)
 
-## API Server
+On Ubuntu:
+```
+sudo apt-get install git
+sudo apt-get install nodejs
+```
 
-Information about the API server and how to use it can be found in its [README file](api-server/README.md).
+### Installing
+
+Clone the git repository and install all project dependencies with `npm install`.
+
+```
+git clone https://github.com/stefanadelbert/readable
+npm install
+```
+
+#### Server
+
+```
+cd readable/api-server
+npm install
+```
+
+#### Frontend
+
+```
+cd readable/frontend
+npm install
+```
+
+## Use
+
+### Server
+
+In a terminal, change to the `readable/api-server` directory and start the backend server with `node server.js`.
+
+```
+cd readable/api-server
+node server.js
+```
+
+Navigate to the documentation page served by the backend server at <http://localhost:3001> to confirm that it is running.
+
+### Frontend
+
+In a terminal, change to the `readable/frontend` directory and start the development server with `npm start`.
+
+```
+cd readable/frontend
+npm start
+```
+
+Navigate to the page served by the development server at <http://localhost:3000>.
+
+## Running the tests
+
+To run the tests,
+
+```
+npm test
+```
+
+## Built With
+
+* [React](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+
+## Authors
+
+* **Stefan Adelbert** - [GitHub](https://github.com/stefanadelbert)
