@@ -12,6 +12,7 @@ import Post from './Post';
 import EditPost from './EditPost';
 import Comments from './Comments';
 import NewComment from './NewComment';
+import PageNotFound from './PageNotFound';
 import {editPost, votePost, deletePost, newComment} from '../actions/actions';
 
 class ExistingPostPage extends React.Component {
@@ -60,11 +61,12 @@ class ExistingPostPage extends React.Component {
     }
     render() {
         let post = this.props.posts[this.props.id];
-        if (post === undefined) {
-            return <Redirect to="/"/>
-        }
-        if (post.deleted) {
-            return <Redirect to="/"/>
+        if (post === undefined || post.deleted) {
+            return <PageNotFound>
+                <div class="alert alert-danger" role="alert">
+                    Invalid post with id <em>{this.props.id}</em>
+                </div>    
+            </PageNotFound>
         }
         if (this.state.editing) {
             return (
@@ -76,19 +78,19 @@ class ExistingPostPage extends React.Component {
         } else {
             return (
                 <div>
-                <Post {...post}>
-                <div className="d-flex justify-content-end">
-                    <div className="btn-group">
-                        {!this.state.commenting && <button type="button" className="btn btn-sm" onClick={() => this.onNewComment()}><MdComment className=""/></button>}
-                        <button type="button" className="btn btn-sm" onClick={() => this.onVote(post.id, 'downVote')}><MdThumbDown className="text-danger"/></button>
-                        <button type="button" className="btn btn-sm" onClick={() => this.onVote(post.id, 'upVote')}><MdThumbUp className="text-success"/></button>
-                        <button type="button" className="btn btn-sm" onClick={this.onEdit}><MdEdit/></button>
-                        <button type="button" className="btn  btn-sm btn-danger" color="danger" onClick={this.onDeletePost}><MdDelete/></button>
-                    </div>
-                </div>
-            </Post>
-            {this.state.commenting && <NewComment onDone={(body, author) => this.onNewCommentDone(post.id, body, author)} onCancel={this.onNewCommentCancel}/>}
-            <Comments comments={this.props.comments[post.id]}/>
+                    <Post {...post}>
+                        <div className="d-flex justify-content-end">
+                            <div className="btn-group">
+                                {!this.state.commenting && <button type="button" className="btn btn-sm" onClick={() => this.onNewComment()}><MdComment className=""/></button>}
+                                <button type="button" className="btn btn-sm" onClick={() => this.onVote(post.id, 'downVote')}><MdThumbDown className="text-danger"/></button>
+                                <button type="button" className="btn btn-sm" onClick={() => this.onVote(post.id, 'upVote')}><MdThumbUp className="text-success"/></button>
+                                <button type="button" className="btn btn-sm" onClick={this.onEdit}><MdEdit/></button>
+                                <button type="button" className="btn  btn-sm btn-danger" color="danger" onClick={this.onDeletePost}><MdDelete/></button>
+                            </div>
+                        </div>
+                    </Post>
+                    {this.state.commenting && <NewComment onDone={(body, author) => this.onNewCommentDone(post.id, body, author)} onCancel={this.onNewCommentCancel}/>}
+                    <Comments comments={this.props.comments[post.id]}/>
                 </div>
             );
         }

@@ -1,24 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Categories extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            category: "all"
-        }
-        this.setCategory = this.setCategory.bind(this);
-    } 
-    setCategory(category) {
-        this.setState({category});
-        this.props.setCategory(category);
-    }
     render() {
         return (
             <div className="btn-group p-2">
+                <Link className={"btn btn-secondary" + ("all" === this.props.active? " active" : "")} to="/all">all</Link>
                 {this.props.categories.map(category =>
-                    <button key={category} className={"btn btn-secondary" + (category === this.state.category? " active" : "")} onClick={() => this.setCategory(category)}>{category}</button>
+                    <Link key={category} className={"btn btn-secondary" + (category === this.props.active? " active" : "")} to={"/" + category}>{category}</Link>
 
                 )}
             </div>
@@ -27,9 +18,10 @@ class Categories extends React.Component {
 }
 Categories.defaultProps = {
     categories: [],
+    active: "all",
 }
 Categories.propTypes = {
+    active: PropTypes.string,
     categories: PropTypes.array,
-    setCategory: PropTypes.func.isRequired,
 }
 export default Categories;

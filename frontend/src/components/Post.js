@@ -10,7 +10,7 @@ import CommentCount from './CommentCount';
 
 const Post = (props) => {
     return (
-        <div className="card bg-light">
+        <div className="card bg-light m-2">
             <div className="card-body">
                 <div className="card-title">{props.title}</div>
                 <div className="card-subtitle">

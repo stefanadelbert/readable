@@ -14,39 +14,39 @@ const filterPostsByCategory = (posts, category) => {
 }
 
 class MainPage extends React.Component {
+    static propTypes = {
+        category: PropTypes.string,
+        categories: PropTypes.array.isRequired,
+        posts: PropTypes.object.isRequired,
+    }
+    static defaultProps = {
+        category: "all",
+    }
     constructor(props) {
         super(props);
         this.state = {
-            category: "all",
+            category: this.props.category,
             sortField: "",
             sortDirection: "desc",
         }
-        this.setCategory = this.setCategory.bind(this);
-    }
-    setCategory(category) {
-        this.setState({category});
     }
     setSort(sortField, sortDirection) {
         this.setState({sortField, sortDirection});
     }
     render() {
-        var categories = ["all"].concat(this.props.categories.map(category => category.name));
+        var categories = this.props.categories.map(category => category.name);
         var posts = this.props.posts.result.map(id => this.props.posts.entities.posts[id]);
-        posts = filterPostsByCategory(posts, this.state.category);
+        posts = filterPostsByCategory(posts, this.props.category);
         return (
             <div>
-                <Categories setCategory={this.setCategory} categories={categories} />
+                <Categories active={this.props.category} categories={categories} />
                 <div className="btn-group d-flex justify-content-end p-2">
-                    <Link className="btn btm-lg btn-dark" to="/new">New Post</Link>
+                    <Link className="btn btm-lg btn-dark" to="/posts/new">New Post</Link>
                 </div>
                 <PostSummaries onVote={this.props.votePost} posts={posts} />
             </div>
         );
     }
-}
-MainPage.propTypes = {
-    categories: PropTypes.array.isRequired,
-    posts: PropTypes.object.isRequired,
 }
 
 function mapStateToProps({categories, posts}) {

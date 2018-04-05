@@ -18,7 +18,7 @@ const PostSummaries = (props) => {
                             <div className="btn-group">
                                 <button type="button" className="btn btn-sm" onClick={() => props.onVote(post.id, 'downVote')}><MdThumbDown className="text-danger"/></button>
                                 <button type="button" className="btn btn-sm" onClick={() => props.onVote(post.id, 'upVote')}><MdThumbUp className="text-success"/></button>
-                                <Link className="btn btn-secondary" to={`/posts/${post.id}`}><MdChevronRight/></Link>
+                                <Link className="btn btn-secondary" to={`/${post.category}/${post.id}`}><MdChevronRight/></Link>
                             </div>
                         </div>
                     </Post>

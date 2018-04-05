@@ -14,10 +14,14 @@ const App = (props) => {
             <Header />
             <Switch>
                 <Route exact path="/" component={MainPage} />
-                <Route exact path="/new" component={NewPostPage} />
-                <Route path="/posts/:id" render={({match}) => <ExistingPostPage id={match.params.id} />} />
-                <Route path="/pagenotfound" component={PageNotFound} />
-                        
+                <Route exact path="/posts/new" component={NewPostPage} />
+                <Route exact path="/:category"
+                    render={({match}) => <MainPage category={match.params.category} />}
+                />
+                <Route path="/:category/:post_id"
+                    render={({match}) => <ExistingPostPage id={match.params.post_id} />}
+                />
+                <Route component={PageNotFound} />
             </Switch>
         </div>
     );
