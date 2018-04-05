@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import MdEdit from 'react-icons/lib/md/edit';
 import MdThumbUp from 'react-icons/lib/md/thumb-up';
 import MdThumbDown from 'react-icons/lib/md/thumb-down';
@@ -59,10 +60,10 @@ class ExistingPostPage extends React.Component {
     render() {
         let post = this.props.posts[this.props.id];
         if (post === undefined) {
-            return (<h1>Invalid</h1>)
+            return <Redirect to="/"/>
         }
         if (post.deleted) {
-            return (<h1>Deleted</h1>)
+            return <Redirect to="/"/>
         }
         if (this.state.editing) {
             return (

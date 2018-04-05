@@ -13,15 +13,7 @@ const PostSummaries = (props) => {
         <div>
             {props.posts.map(post => 
                 <div key={post.id}>
-                    <Post
-                        title={post.title}
-                        body={post.body}
-                        author={post.author}
-                        timestamp={post.timestamp}
-                        voteScore={post.voteScore}
-                        commentCount={post.commentCount}
-                        deleted={post.deleted}
-                    >
+                    <Post {...post} >
                         <div className="d-flex justify-content-end">
                             <div className="btn-group">
                                 <button type="button" className="btn btn-sm" onClick={() => props.onVote(post.id, 'downVote')}><MdThumbDown className="text-danger"/></button>

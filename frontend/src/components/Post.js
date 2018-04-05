@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonGroup} from 'reactstrap';
 import {Card, CardTitle, CardSubtitle, CardBody, CardText} from 'reactstrap';
-import {Form, Input} from 'reactstrap';
+import {Input} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Author from './Author';
+import Category from './Category';
 import Timestamp from './Timestamp';
 import VoteScore from './VoteScore';
 import CommentCount from './CommentCount';
@@ -18,6 +19,7 @@ const Post = (props) => {
                 <CardTitle>{props.title}</CardTitle>
                 <CardSubtitle>
                     <div className="d-flex flex-wrap justify-content-end">
+                        <Category category={props.category}/>
                         <Author author={props.author}/>
                         <Timestamp timestamp={props.timestamp}/>
                         <VoteScore voteScore={props.voteScore}/>
@@ -36,6 +38,7 @@ Post.defaultProps = {
 Post.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
     timestamp: PropTypes.number.isRequired,
     voteScore: PropTypes.number.isRequired,
     commentCount: PropTypes.number.isRequired,
@@ -43,27 +46,18 @@ Post.propTypes = {
 };
 
 class NewPost extends React.Component {
-    static defaultProps = {
-        title: '',
-        body: '',
-        author: '',
-        category: '',
-    }
     static propTypes = {
-        title: PropTypes.string,
-        body: PropTypes.string,
-        author: PropTypes.string,
-        category: PropTypes.string,
+        categories: PropTypes.array.isRequired,
         onDone: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
     }
     constructor(props) {
         super(props);
         this.state = {
-            title: this.props.title,
-            body: this.props.body,
-            author: this.props.author,
-            category: this.props.author,
+            title: '',
+            body: '',
+            author: '',
+            category: '',
         }
 
         this.handleTitleChange = this.handleTitleChange.bind(this)
@@ -94,12 +88,16 @@ class NewPost extends React.Component {
     render() {
         return (
             <div>
-                <Form>
+                <form>
                     <Input type="text" placeholder={'Title'} value={this.state.title} onChange={this.handleTitleChange} name="title" />
                     <Input type="textarea" placeholder={'Body'} value={this.state.body} onChange={this.handleBodyChange} name="body" />
                     <Input type="text" placeholder={'Author'} value={this.state.author} onChange={this.handleAuthorChange} name="author" />
-                    <Input type="text" placeholder={'Category'} value={this.state.category} onChange={this.handleCategoryChange} name="category" />
-                </Form>
+                    <select className="form-control" onChange={this.handleCategoryChange}>
+                        {this.props.categories.map(
+                            category => <option key={category} value={category}>{category}</option>
+                        )}
+                    </select>
+                </form>
                 <div className="d-flex justify-content-end">
                     <ButtonGroup>
                         <Button color="primary" onClick={this.handleDone}>Done</Button>
@@ -149,12 +147,13 @@ class EditPost extends React.Component {
         return (
             <div>
                 <div className="d-flex justify-content-end">
+                    <Category category={this.props.category}/>
                     <Author author={this.props.author}/>
                     <Timestamp timestamp={this.props.timestamp}/>
                     <VoteScore voteScore={this.props.voteScore}/>
                     <CommentCount commentCount={this.props.commentCount}/>
                 </div>
-                <Form>
+                <form>
                     <Input type="text" placeholder={'Title'} value={this.state.title} onChange={this.handleTitleChange} name="title" />
                     <Input type="textarea" placeholder={'Body'} value={this.state.body} onChange={this.handleBodyChange} name="body" />
                     <div className="d-flex justify-content-end">
@@ -163,7 +162,7 @@ class EditPost extends React.Component {
                             <Button color="danger" onClick={this.handleCancel}>Cancel</Button>
                         </ButtonGroup>
                     </div>
-                </Form>
+                </form>
             </div>
         );
     }

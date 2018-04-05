@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import MdAddCircleOutline from 'react-icons/lib/md/add-circle-outline';
 import Categories from './Categories';
 import PostSummaries from './PostSummaries';
 import {votePost} from '../actions/actions';
@@ -37,8 +36,8 @@ class MainPage extends React.Component {
         return (
             <div>
                 <Categories setCategory={this.setCategory} categories={categories} />
-                <div className="btn-group">
-                    <Link className="btn btm-lg btn-light" to="/new"><MdAddCircleOutline/></Link>
+                <div className="btn-group d-flex justify-content-end p-2">
+                    <Link className="btn btm-lg btn-dark" to="/new">New Post</Link>
                 </div>
                 <PostSummaries onVote={this.props.votePost} posts={posts} />
             </div>

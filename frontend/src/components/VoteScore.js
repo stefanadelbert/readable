@@ -1,27 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import MdThumbsUpDown from 'react-icons/lib/md/thumbs-up-down';
 
-const Wrapper = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 0.2rem;
-`
-const ThumbsUp = styled(MdThumbsUpDown)`
-    padding: 0.1rem;
-    color: green;
-`
-const ThumbsDown = styled(MdThumbsUpDown)`
-    padding: 0.1rem;
-    color: darkred;
-`
 const VoteScore = (props) => {
-    let icon = props.voteScore < 0? <ThumbsDown/> : <ThumbsUp/>;
+    let iconClass = props.voteScore < 0?
+        "text-danger" : "text-success"
     return (
-        <Wrapper>
-            {icon}{props.voteScore}
-        </Wrapper>
+        <div className="d-flex align-items-center p-2">
+            <MdThumbsUpDown className={iconClass + " pr-1"}/>{props.voteScore}
+        </div>
     );
 }
 VoteScore.propTypes = {

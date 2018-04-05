@@ -21,6 +21,7 @@ class NewPostPage extends React.Component {
         return (
             <div>
                 <NewPost
+                    categories={this.props.categories.map(category => category.name)}
                     onDone={(title, body, author, category) => this.onDone(title, body, author, category)}
                     onCancel={this.onCancel}
                 />
@@ -29,10 +30,16 @@ class NewPostPage extends React.Component {
     }
 }
 
+function mapStateToProps({categories}) {
+	return {
+		categories,
+	};
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         newPost: (title, body, author, category) => dispatch(newPost(title, body, author, category))
     };
 } 
 
-export default connect(null, mapDispatchToProps)(NewPostPage);
+export default connect(mapStateToProps, mapDispatchToProps)(NewPostPage);
