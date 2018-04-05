@@ -86,7 +86,7 @@ class NewPost extends React.Component {
         this.setState({category: event.target.value});
     }
     handleDone(event) {
-        this.props.onDone(this.state.title, this.state.body);
+        this.props.onDone(this.state.title, this.state.body, this.state.author, this.state.category);
     }
     handleCancel(event) {
         this.props.onCancel();

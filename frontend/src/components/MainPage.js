@@ -2,22 +2,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {Button, ButtonGroup} from 'reactstrap';
-
+import MdAddCircleOutline from 'react-icons/lib/md/add-circle-outline';
 import Categories from './Categories';
 import PostSummaries from './PostSummaries';
+import {votePost} from '../actions/actions';
 
 const MainPage = (props) => { 
     var posts = props.posts.result.map(id => props.posts.entities.posts[id]);
-    console.log('MainPage', props.posts);
-    console.log('MainPage', posts);
     return (
         <div>
             <Categories categories={props.categories} />
-            <ButtonGroup>
-                <Button tag={Link} to="/new">New Post</Button>
-            </ButtonGroup>
-            <PostSummaries posts={posts} />
+            <div className="btn-group">
+                <Link className="btn btm-lg btn-light" to="/new"><MdAddCircleOutline/></Link>
+            </div>
+            <PostSummaries onVote={props.votePost} posts={posts} />
         </div>
     );
 }
@@ -34,7 +32,9 @@ function mapStateToProps({categories, posts}) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return {}
+    return {
+        votePost: (id, option) => dispatch(votePost(id, option)),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
