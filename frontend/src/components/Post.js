@@ -12,7 +12,6 @@ const Post = (props) => {
     return (
         <div className="card bg-light m-2">
             <div className="card-body">
-                <div className="card-title">{props.title}</div>
                 <div className="card-subtitle">
                     <div className="d-flex flex-wrap justify-content-end">
                         <Category category={props.category}/>
@@ -22,7 +21,8 @@ const Post = (props) => {
                         <CommentCount commentCount={props.commentCount}/>
                     </div>
                 </div>
-                <div className="card-text">{props.body}</div>
+                <div className="card-title"><strong>{props.title}</strong></div>
+                {!props.noBody && <div className="card-text">{props.body}</div>}
                 {props.children}
             </div>
         </div>

@@ -7,7 +7,6 @@ class Categories extends React.Component {
     render() {
         return (
             <div className="btn-group p-2">
-                <Link className={"btn btn-secondary" + ("all" === this.props.active? " active" : "")} to="/all">all</Link>
                 {this.props.categories.map(category =>
                     <Link key={category} className={"btn btn-secondary" + (category === this.props.active? " active" : "")} to={"/" + category}>{category}</Link>
 
@@ -18,7 +17,7 @@ class Categories extends React.Component {
 }
 Categories.defaultProps = {
     categories: [],
-    active: "all",
+    active: "",
 }
 Categories.propTypes = {
     active: PropTypes.string,
