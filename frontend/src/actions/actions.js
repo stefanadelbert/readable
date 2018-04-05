@@ -139,6 +139,13 @@ export function newComment(parentId, body, author) {
         })));
 }
 
+export function editComment(id, body) {
+    console.log('actions.editComment', id, body);
+    let timestamp = Date.now();
+    return dispatch => API.editComment(id, timestamp, body)
+        .then(comment => dispatch(updateComment(comment)));
+}
+
 export function voteComment(id, option) {
     console.log('actions.voteComment', id, option);
     return dispatch => API.voteComment(id, option)

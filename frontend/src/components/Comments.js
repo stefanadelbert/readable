@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Comment from './Comment';
-import {voteComment, deleteComment} from '../actions/actions';
+import {voteComment, editComment, deleteComment} from '../actions/actions';
 
-const Comments = ({comments, deleteComment, voteComment}) => {
+const Comments = ({comments, deleteComment, voteComment, editComment}) => {
     return (
         <div>
             {comments.map(comment => (
@@ -18,6 +18,7 @@ const Comments = ({comments, deleteComment, voteComment}) => {
                         voteScore={comment.voteScore}
                         onDelete={() => deleteComment(comment.parentId, comment.id)}
                         onVote={(option) => voteComment(comment.id, option)}
+                        onEdit={(body) => editComment(comment.id, body)}
                     />
                 </div>
             ))}
@@ -33,6 +34,7 @@ Comments.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
+        editComment: (id, body) => dispatch(editComment(id, body)),
         deleteComment: (parentId, id) => dispatch(deleteComment(parentId, id)),
         voteComment: (id, option) => dispatch(voteComment(id, option)),
     };
