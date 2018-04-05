@@ -7,17 +7,43 @@ import Categories from './Categories';
 import PostSummaries from './PostSummaries';
 import {votePost} from '../actions/actions';
 
-const MainPage = (props) => { 
-    var posts = props.posts.result.map(id => props.posts.entities.posts[id]);
-    return (
-        <div>
-            <Categories categories={props.categories} />
-            <div className="btn-group">
-                <Link className="btn btm-lg btn-light" to="/new"><MdAddCircleOutline/></Link>
+const filterPostsByCategory = (posts, category) => {
+    if (category === "all") {
+        return posts;
+    }
+    return posts.filter(post => post.category === category);
+}
+
+class MainPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            category: "all",
+            sortField: "",
+            sortDirection: "desc",
+        }
+        this.setCategory = this.setCategory.bind(this);
+    }
+    setCategory(category) {
+        this.setState({category});
+    }
+    setSort(sortField, sortDirection) {
+        this.setState({sortField, sortDirection});
+    }
+    render() {
+        var categories = ["all"].concat(this.props.categories.map(category => category.name));
+        var posts = this.props.posts.result.map(id => this.props.posts.entities.posts[id]);
+        posts = filterPostsByCategory(posts, this.state.category);
+        return (
+            <div>
+                <Categories setCategory={this.setCategory} categories={categories} />
+                <div className="btn-group">
+                    <Link className="btn btm-lg btn-light" to="/new"><MdAddCircleOutline/></Link>
+                </div>
+                <PostSummaries onVote={this.props.votePost} posts={posts} />
             </div>
-            <PostSummaries onVote={props.votePost} posts={posts} />
-        </div>
-    );
+        );
+    }
 }
 MainPage.propTypes = {
     categories: PropTypes.array.isRequired,

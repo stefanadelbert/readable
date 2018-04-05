@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Header from './Header';
 import MainPage from './MainPage';
 import NewPostPage from './NewPostPage';
-import PostsByCategoryPage from './PostsByCategoryPage';
 import ExistingPostPage from './ExistingPostPage';
 import PageNotFound from './PageNotFound';
 
@@ -21,7 +20,6 @@ const App = (props) => {
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/new" component={NewPostPage} />
-                <Route path="/categories/:category" render={({match}) => <PostsByCategoryPage category={match.params.category} />} />
                 <Route path="/posts/:id" render={({match}) => <ExistingPostPage id={match.params.id} />} />
                 <Route path="/pagenotfound" component={PageNotFound} />
                         
